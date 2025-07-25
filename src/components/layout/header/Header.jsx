@@ -8,7 +8,9 @@ const Header = () => {
 			<a href='.' target='_blank'>
 				<img src={projectLogo} className='logo' alt='Logo' />
 			</a>
-			<button onClick={() => {}}>Вход</button>
+			<button className={styles.buttonBlue} onClick={() => {}}>
+				Вход
+			</button>
 			{/* User Profile */}
 		</header>
 	)
