@@ -1,0 +1,24 @@
+@import '@/assets/styles/variables';
+@import '@/assets/styles/animation';
+
+.home {
+	background-color: $bg-semi-gray;
+}
+.buttonBluee {
+	background-color: $blue;
+	color: $bg-white;
+	border: none;
+	padding: 0.375rem 0.875rem;
+	height: 40px;
+	display: block;
+	text-align: center;
+	font-size: 1rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+	border-radius: 50px;
+
+	&:hover {
+		background: #7342bc;
+	}
+}
