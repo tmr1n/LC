@@ -1,7 +1,8 @@
 import './layout.module.scss'
 
-import Header from './header/Header.jsx'
-import Home from '@/components/screens/home/Home.jsx'
+import Home from '../screens/home/Home'
+
+import Header from './header/Header'
 
 const Layout = () => {
 	return (

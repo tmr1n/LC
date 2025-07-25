@@ -1,13 +1,14 @@
 import styles from './home.module.scss'
 
-function Home() {
+const Home = () => {
 	return (
 		<section className={styles.home}>
-			<h1> Как вы хотите заниматься? </h1>
-			<h2>
+			<h1 className={styles.title}> Как вы хотите заниматься? </h1>
+			<p className={styles.miniTitle}>
 				Освойте любой изучаемый материал с помощью интерактивных карточек,
+				<br />
 				пробных тестов и учебных активностей в Quizlet.
-			</h2>
+			</p>
 			<button className={styles.buttonBluee} onClick={() => {}}>
 				Зарегистрироваться бесплатно
 			</button>

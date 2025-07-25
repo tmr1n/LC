@@ -3,6 +3,31 @@
 
 .home {
 	background-color: $bg-semi-gray;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	padding: 0 2rem 2rem;
+	text-align: center;
+	font-family: $default-font;
+	margin-left: -10px;
+	margin-right: -10px;
+}
+
+.miniTitle {
+	min-height: 1.5rem;
+	font-weight: 400;
+	font-size: 1.25rem;
+	text-align: center;
+	letter-spacing: normal;
+	line-height: 1.4;
+	margin-top: -10px;
+}
+
+.title {
+	justify-content: center;
+	font-weight: 700;
+	font-size: 2.75rem;
 }
 .buttonBluee {
 	background-color: $blue;
