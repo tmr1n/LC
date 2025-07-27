@@ -1,28 +1,19 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 import Layout from '../components/layout/Layout'
+import Home from '../components/screens/home/Home'
 import NotFound from '../components/screens/not-found/NotFound'
-
-import { routes } from './routes.data'
 
 const Router = () => {
 	return (
 		<BrowserRouter>
-			<Layout>
-				{' '}
-				{/* ✅ Layout оборачивает все роуты */}
-				<Routes>
-					{routes.map(route => (
-						<Route
-							key={route.path}
-							path={route.path}
-							element={<route.component />}
-						/>
-					))}
-
-					<Route path='*' element={<NotFound />} />
-				</Routes>
-			</Layout>
+			<Routes>
+				<Route path='/' element={<Layout />}>
+					<Route index element={<Home />} />
+				</Route>
+				{/* ✅ Убираем роуты auth и registration для модалок */}
+				<Route path='*' element={<NotFound />} />
+			</Routes>
 		</BrowserRouter>
 	)
 }
