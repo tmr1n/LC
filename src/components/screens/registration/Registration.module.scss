@@ -3,6 +3,7 @@
 
 .sec1 {
 	display: flex;
+	height: 100vh;
 }
 .d1 {
 	background-image: url('@/assets/Registration-img.png');
@@ -12,13 +13,14 @@
 	width: 50%;
 	flex: 50% 1;
 	font-family: $default-font;
+	position: fixed;
 }
 
 .d1 h1 {
 	font-size: 2.75rem;
 	line-height: 1.2727272727272727;
 	position: absolute;
-	margin: 3.5%;
+	margin: 7.5%;
 	max-width: 400px; // ограничиваем ширину
 	word-wrap: break-word; // разрешаем перенос слов
 	hyphens: auto; // автоматические переносы
@@ -27,8 +29,9 @@
 
 .d2 {
 	background-color: $bg-white;
-	height: 100vh; // половина высоты viewport
+	min-height: 100vh; // половина высоты viewport
 	width: 50%;
+	margin-left: 50%;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -39,10 +42,11 @@
 }
 
 .closeButton {
-	position: absolute;
+	position: fixed;
 	top: 20px; // отступ от верха
 	right: 20px; // отступ от правого края
 	cursor: pointer;
+	z-index: 10;
 	transition: all 0.2s ease;
 
 	&:hover {
@@ -88,7 +92,7 @@
 	margin: 0 auto;
 }
 
-.buttonGoogle {
+.buttonGray {
 	background-color: #ffffff;
 	color: gray;
 	border: 2px solid #dcdcdc;
@@ -162,8 +166,158 @@
 	}
 }
 
-//.underline svg {
-//	width: 50%; /* SVG растянется на всю ширину родителя */
-//	height: auto;
-//	max-width: 100%;
-//}
+.inputGroup {
+	position: relative;
+	margin-bottom: 1.5rem;
+}
+
+.inputField {
+	width: 100%;
+	height: 50px; /* Фиксированная высота для вертикального центрирования */
+	padding: 14px 16px;
+	border: none;
+	border-radius: 8px;
+	background-color: #f8f9fa;
+	font-size: 16px;
+	color: #2d3748;
+
+	line-height: 22px; /* Вертикальное центрирование placeholder */
+
+	transition: all 0.3s ease;
+}
+//#f8f9fa
+.inputField:focus {
+	border-color: #007bff;
+	background-color: white;
+	box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.fieldLabel {
+	display: block;
+	margin-bottom: 0.5rem;
+	font-size: 14px;
+	font-weight: 600;
+	color: #586380;
+}
+
+/* Когда поле в фокусе или заполнено */
+.inputField:focus + .input-label,
+.inputField:not(:placeholder-shown) + .input-label {
+	top: 4px;
+	font-size: 12px;
+	color: #007bff;
+	font-weight: 500;
+}
+
+.passwordToggle {
+	position: absolute;
+	right: 12px;
+	top: 50%;
+	transform: translateY(-50%);
+	background: none;
+	border: none;
+	cursor: pointer;
+	color: #666;
+	padding: 4px;
+}
+
+.passwordToggle:hover {
+	color: #333;
+}
+.regTitle.inActive {
+	color: #586380;
+}
+
+.active {
+	padding-right: 20px;
+}
+.df {
+	display: flex;
+}
+
+.passwordWrapper {
+	position: relative;
+	display: flex;
+	align-items: center;
+}
+
+.checkboxGroup {
+	margin-bottom: 1.5rem;
+}
+
+.checkboxLabel {
+	display: flex;
+	align-items: flex-start;
+	cursor: pointer;
+	gap: 12px;
+	font-size: 14px;
+	line-height: 1.4;
+	color: #2d3748;
+}
+
+.checkboxInput {
+	display: none; // ✅ Скрываем стандартный чекбокс
+}
+
+.checkboxCustom {
+	width: 20px;
+	height: 20px;
+	border: 2px solid #d1d5db;
+	border-radius: 4px;
+	background-color: white;
+	flex-shrink: 0; // ✅ Не сжимается
+	position: relative;
+	transition: all 0.2s ease;
+	margin-top: 2px; // ✅ Выравнивание с текстом
+
+	// Галочка (изначально скрыта)
+	&::after {
+		content: '';
+		position: absolute;
+		left: 50%; // ✅ По центру по горизонтали
+		top: 50%; // ✅ По центру по вертикали
+		width: 6px;
+		height: 10px;
+		border: solid white;
+		border-width: 0 2px 2px 0;
+		transform: translate(-50%, -50%) rotate(45deg); // ✅ Центрируем и поворачиваем
+		opacity: 0;
+		transition: opacity 0.2s ease;
+	}
+}
+
+// Состояние при наведении
+.checkboxLabel:hover .checkboxCustom {
+	border-color: #9ca3af;
+}
+
+// Состояние когда чекбокс отмечен
+.checkboxInput:checked + .checkboxCustom {
+	background-color: #4f46e5;
+	border-color: #4f46e5;
+
+	&::after {
+		opacity: 1;
+	}
+}
+
+// Состояние фокуса
+.checkboxInput:focus + .checkboxCustom {
+	box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.checkboxText {
+	flex: 1;
+	margin-top: 1px; // ✅ Точное выравнивание с чекбоксом
+	font-weight: 600;
+}
+
+.checkboxLink {
+	color: #4f46e5;
+	text-decoration: underline;
+	transition: color 0.2s ease;
+
+	&:hover {
+		color: #3730a3;
+	}
+}

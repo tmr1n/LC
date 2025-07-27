@@ -1,51 +1,22 @@
-// import Auth from '../components/screens/auth/Auth'
-// import Home from '../components/screens/home/Home'
-import Layout from '../components/layout/Layout'
-
-// import NewWorkout from '../components/screens/new-workout/NewWorkout'
-// import Profile from '../components/screens/profile/Profile'
+import Auth from '../components/screens/auth/Auth'
+import Home from '../components/screens/home/Home'
+import Registration from '../components/screens/registration/Registration'
 
 export const routes = [
 	{
 		path: '/',
-		component: Layout,
+		component: Home,
+		auth: false
+	},
+	{
+		path: '/registration',
+		component: Registration,
+		auth: false
+	},
+	{
+		path: '/auth',
+		component: Auth,
 		auth: false
 	}
-	// },
-	// {
-	// 	path: '/auth',
-	// 	component: Auth,
-	// 	auth: false
-	// },
-	// {
-	// 	path: '/new-workout',
-	// 	component: NewWorkout,
-	// 	auth: true
-	// },
-	// {
-	// 	path: '/profile',
-	// 	component: Profile,
-	// 	auth: true
-	// }
-	// {
-	// 	path: '/new-exercise',
-	// 	component: NewExercise,
-	// 	auth: true
-	// },
-
-	// {
-	// 	path: '/workout/:id',
-	// 	component: SingleWorkout,
-	// 	auth: true
-	// },
-	// {
-	// 	path: '/workouts',
-	// 	component: ListWorkouts,
-	// 	auth: true
-	// },
-	// {
-	// 	path: '/exercise/:id',
-	// 	component: SingleExercise,
-	// 	auth: true
-	// }
+	// Остальные роуты раскомментируете по мере необходимости
 ]

@@ -1,18 +1,20 @@
+import { useLocation } from 'react-router-dom'
+
 import './layout.module.scss'
 
-// import Home from '../screens/home/Home'
-//
-// import Header from './header/Header'
-import Registration from '../screens/registration/Registration'
+import Header from '@/components/layout/header/Header.jsx'
 
-const Layout = () => {
+const Layout = ({ children }) => {
+	const location = useLocation()
+	// ✅ Определяем страницы, где НЕ нужен хедер
+	const hideHeaderPages = ['/registration', '/auth']
+	const shouldShowHeader = !hideHeaderPages.includes(location.pathname)
+	// ✅ Принимает children
 	return (
 		<div>
-			{/*<Header />*/}
-			{/*<Home />*/}
-			<Registration />
+			{shouldShowHeader && <Header />}
+			{children} {/* ✅ Рендерит переданные компоненты */}
 			{/* <Footer /> */}
-			{/* <UserProfile /> */}
 		</div>
 	)
 }
