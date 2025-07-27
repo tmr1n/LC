@@ -26,7 +26,7 @@
 }
 
 .d2 {
-	background-color: $bg-semi-gray;
+	background-color: $bg-white;
 	height: 100vh; // половина высоты viewport
 	width: 50%;
 	display: flex;
@@ -65,7 +65,7 @@
 	font-weight: 700;
 	font-size: 1.6rem;
 	text-align: center;
-	margin-bottom: 1rem;
+
 	align-items: center;
 	cursor: pointer;
 	flex-direction: column;
@@ -74,18 +74,17 @@
 
 .titleNames {
 	display: flex;
-	justify-content: center;
-	align-items: flex-start;
+	justify-content: flex-start;
 }
 .container {
 	display: flex;
 	flex-direction: column;
-	align-items: baseline;
+
 	justify-content: flex-start;
 	gap: 20px; // расстояние между элементами
 	width: 100%;
 	max-width: 600px;
-	padding: 50px 0; // отступы сверху и снизу
+	padding: 60px 0; // отступы сверху и снизу
 	margin: 0 auto;
 }
 
@@ -114,3 +113,57 @@
 		border-color: #bfbfbf;
 	}
 }
+
+.dividerFlex {
+	display: flex;
+	align-items: center;
+	//margin: 20px 0;
+	color: #666;
+	font-size: clamp(14px, 2vw, 24px); /* автоматическое масштабирование */
+}
+
+.line {
+	flex: 1;
+	height: 1.5px;
+	background-color: #eaeaea;
+	margin: 0 10px; /* увеличенный отступ от текста */
+}
+
+.text {
+	font-size: 14px;
+	font-weight: 600;
+	white-space: nowrap;
+	padding: 0 10px;
+}
+
+.underline {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.buttonBlue {
+	background-color: $blue;
+	color: $bg-white;
+	border: none;
+	padding: 0.375rem 0.875rem;
+	height: 65px;
+	width: 100%;
+	display: block;
+	text-align: center;
+	font-size: 1rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+	border-radius: 50px;
+
+	&:hover {
+		background: #7342bc;
+	}
+}
+
+//.underline svg {
+//	width: 50%; /* SVG растянется на всю ширину родителя */
+//	height: auto;
+//	max-width: 100%;
+//}
