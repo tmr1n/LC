@@ -117,6 +117,9 @@
 		border-color: #bfbfbf;
 	}
 }
+.iconGoogle {
+	margin-right: 5px;
+}
 
 .dividerFlex {
 	display: flex;
@@ -145,7 +148,24 @@
 	flex-direction: column;
 	align-items: center;
 }
+.withUnderline {
+	position: relative;
 
+	&::after {
+		content: '';
+		position: absolute;
+		bottom: -8px;
+		left: 0;
+		right: 0;
+		height: 3px;
+		background: #e372ff;
+		border-radius: 2px;
+		box-shadow: 0 2px 8px rgba(227, 114, 255, 0.3);
+	}
+}
+.mt15 {
+	margin-top: 15px;
+}
 .buttonBlue {
 	background-color: $blue;
 	color: $bg-white;
@@ -201,7 +221,7 @@
 
 .fieldLabel {
 	display: block;
-	margin-bottom: 0; // ✅ Убираем margin-bottom только здесь
+	margin-bottom: 0.5rem; // ✅ Убираем margin-bottom только здесь
 	font-size: 14px;
 	font-weight: 600;
 	color: #586380;
@@ -211,7 +231,7 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	margin-bottom: 0.5rem;
+	//margin-bottom: 0.5rem;
 }
 
 .forgotLink {
