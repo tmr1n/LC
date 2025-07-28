@@ -5,11 +5,12 @@
 	display: flex;
 	height: 100vh;
 }
+
 .d1 {
 	background-image: url('@/assets/Registration-img.png');
-	background-size: cover; // масштабирует, сохраняя пропорции
+	background-size: cover;
 	background-position: center;
-	height: 100vh; // половина высоты viewport
+	height: 100vh;
 	width: 50%;
 	flex: 50% 1;
 	font-family: $default-font;
@@ -21,15 +22,15 @@
 	line-height: 1.2727272727272727;
 	position: absolute;
 	margin: 7.5%;
-	max-width: 400px; // ограничиваем ширину
-	word-wrap: break-word; // разрешаем перенос слов
-	hyphens: auto; // автоматические переносы
+	max-width: 400px;
+	word-wrap: break-word;
+	hyphens: auto;
 	color: #333333;
 }
 
 .d2 {
 	background-color: $bg-white;
-	min-height: 100vh; // половина высоты viewport
+	min-height: 100vh;
 	width: 50%;
 	margin-left: 50%;
 	display: flex;
@@ -43,8 +44,8 @@
 
 .closeButton {
 	position: fixed;
-	top: 20px; // отступ от верха
-	right: 20px; // отступ от правого края
+	top: 20px;
+	right: 20px;
 	cursor: pointer;
 	z-index: 10;
 	transition: all 0.2s ease;
@@ -59,7 +60,7 @@
 	position: absolute;
 	bottom: 40px;
 	left: 40px;
-	width: 150px; // задаем нужную ширину
+	width: 150px;
 	height: auto;
 	font-size: 2rem;
 	font-weight: bold;
@@ -69,26 +70,29 @@
 	font-weight: 700;
 	font-size: 1.6rem;
 	text-align: center;
-
 	align-items: center;
 	cursor: pointer;
 	flex-direction: column;
 	margin-right: 2rem;
+
+	&.inActive {
+		color: #586380;
+	}
 }
 
 .titleNames {
 	display: flex;
 	justify-content: flex-start;
 }
+
 .container {
 	display: flex;
 	flex-direction: column;
-
 	justify-content: flex-start;
-	gap: 20px; // расстояние между элементами
+	gap: 20px;
 	width: 100%;
 	max-width: 600px;
-	padding: 60px 0; // отступы сверху и снизу
+	padding: 60px 0;
 	margin: 0 auto;
 }
 
@@ -117,6 +121,7 @@
 		border-color: #bfbfbf;
 	}
 }
+
 .iconGoogle {
 	margin-right: 5px;
 }
@@ -124,16 +129,15 @@
 .dividerFlex {
 	display: flex;
 	align-items: center;
-	//margin: 20px 0;
 	color: #666;
-	font-size: clamp(14px, 2vw, 24px); /* автоматическое масштабирование */
+	font-size: clamp(14px, 2vw, 24px);
 }
 
 .line {
 	flex: 1;
 	height: 1.5px;
 	background-color: #eaeaea;
-	margin: 0 10px; /* увеличенный отступ от текста */
+	margin: 0 10px;
 }
 
 .text {
@@ -148,6 +152,7 @@
 	flex-direction: column;
 	align-items: center;
 }
+
 .withUnderline {
 	position: relative;
 
@@ -163,9 +168,11 @@
 		box-shadow: 0 2px 8px rgba(227, 114, 255, 0.3);
 	}
 }
+
 .mt15 {
 	margin-top: 15px;
 }
+
 .buttonBlue {
 	background-color: $blue;
 	color: $bg-white;
@@ -184,8 +191,14 @@
 	&:hover {
 		background: #7342bc;
 	}
+
+	&:disabled {
+		background-color: #adb5bd;
+		cursor: not-allowed;
+	}
 }
 
+// === СТИЛИ ДЛЯ ПОЛЕЙ ВВОДА ===
 .inputGroup {
 	position: relative;
 	margin-bottom: 1.5rem;
@@ -193,23 +206,52 @@
 
 .inputField {
 	width: 100%;
-	height: 50px; /* Фиксированная высота для вертикального центрирования */
+	height: 50px;
 	padding: 14px 16px;
-	border: none;
+	border: 2px solid transparent; // Добавляем прозрачную границу для плавного перехода
 	border-radius: 8px;
 	background-color: #f8f9fa;
 	font-size: 16px;
 	color: #2d3748;
-
-	line-height: 22px; /* Вертикальное центрирование placeholder */
-
+	line-height: 22px;
 	transition: all 0.3s ease;
+
+	&:focus {
+		border-color: #007bff;
+		background-color: white;
+		box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+		outline: none;
+	}
+
+	&::placeholder {
+		color: #8e9aaf;
+	}
+
+	// === СТИЛИ ДЛЯ ОШИБОК ===
+	&.errorInput {
+		border-color: #ff4757;
+		background-color: #fff5f5;
+
+		&:focus {
+			border-color: #ff4757;
+			box-shadow: 0 0 0 3px rgba(255, 71, 87, 0.1);
+		}
+	}
 }
-//#f8f9fa
-.inputField:focus {
-	border-color: #007bff;
-	background-color: white;
-	box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+
+.fieldLabel {
+	display: block;
+	margin-bottom: 0.5rem;
+	font-size: 14px;
+	font-weight: 600;
+	color: #586380;
+	transition: color 0.3s ease;
+
+	// === СТИЛИ ДЛЯ ОШИБОК ===
+	&.errorLabel {
+		color: #ff4757;
+		font-weight: 700;
+	}
 }
 
 .labelWrapper {
@@ -219,19 +261,10 @@
 	margin-bottom: 0.5rem;
 }
 
-.fieldLabel {
-	display: block;
-	margin-bottom: 0.5rem; // ✅ Убираем margin-bottom только здесь
-	font-size: 14px;
-	font-weight: 600;
-	color: #586380;
-}
-
 .labelRow {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	//margin-bottom: 0.5rem;
 }
 
 .forgotLink {
@@ -246,13 +279,10 @@
 	}
 }
 
-/* Когда поле в фокусе или заполнено */
-.inputField:focus + .inputLabel,
-.inputField:not(:placeholder-shown) + .inputLabel {
-	top: 4px;
-	font-size: 12px;
-	color: #007bff;
-	font-weight: 500;
+.passwordWrapper {
+	position: relative;
+	display: flex;
+	align-items: center;
 }
 
 .passwordToggle {
@@ -265,28 +295,28 @@
 	cursor: pointer;
 	color: #666;
 	padding: 4px;
+	transition: color 0.2s ease;
+
+	&:hover {
+		color: #333;
+	}
 }
 
-.passwordToggle:hover {
-	color: #333;
-}
-.regTitle.inActive {
-	color: #586380;
+// === СТИЛИ ДЛЯ ДОПОЛНИТЕЛЬНЫХ ОШИБОК ===
+.additionalErrors {
+	margin-top: 8px;
 }
 
-.active {
-	padding-right: 20px;
-}
-.df {
-	display: flex;
-}
-
-.passwordWrapper {
-	position: relative;
-	display: flex;
-	align-items: center;
+.errorText {
+	color: #ff4757;
+	font-size: 12px;
+	font-weight: 500;
+	margin-bottom: 4px;
+	line-height: 1.4;
+	padding-left: 4px;
 }
 
+// === СТИЛИ ДЛЯ ЧЕКБОКСОВ ===
 .checkboxGroup {
 	margin-bottom: 1.5rem;
 }
@@ -302,7 +332,21 @@
 }
 
 .checkboxInput {
-	display: none; // ✅ Скрываем стандартный чекбокс
+	position: absolute;
+	opacity: 0;
+
+	&:checked + .checkboxCustom {
+		background-color: #4f46e5;
+		border-color: #4f46e5;
+
+		&::after {
+			opacity: 1;
+		}
+	}
+
+	&:focus + .checkboxCustom {
+		box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+	}
 }
 
 .checkboxCustom {
@@ -311,50 +355,33 @@
 	border: 2px solid #d1d5db;
 	border-radius: 4px;
 	background-color: white;
-	flex-shrink: 0; // ✅ Не сжимается
+	flex-shrink: 0;
 	position: relative;
 	transition: all 0.2s ease;
-	margin-top: 2px; // ✅ Выравнивание с текстом
+	margin-top: 2px;
 
-	// Галочка (изначально скрыта)
 	&::after {
 		content: '';
 		position: absolute;
-		left: 50%; // ✅ По центру по горизонтали
-		top: 50%; // ✅ По центру по вертикали
+		left: 50%;
+		top: 50%;
 		width: 6px;
 		height: 10px;
 		border: solid white;
 		border-width: 0 2px 2px 0;
-		transform: translate(-50%, -50%) rotate(45deg); // ✅ Центрируем и поворачиваем
+		transform: translate(-50%, -50%) rotate(45deg);
 		opacity: 0;
 		transition: opacity 0.2s ease;
 	}
 }
 
-// Состояние при наведении
 .checkboxLabel:hover .checkboxCustom {
 	border-color: #9ca3af;
 }
 
-// Состояние когда чекбокс отмечен
-.checkboxInput:checked + .checkboxCustom {
-	background-color: #4f46e5;
-	border-color: #4f46e5;
-
-	&::after {
-		opacity: 1;
-	}
-}
-
-// Состояние фокуса
-.checkboxInput:focus + .checkboxCustom {
-	box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
-}
-
 .checkboxText {
 	flex: 1;
-	margin-top: 1px; // ✅ Точное выравнивание с чекбоксом
+	margin-top: 1px;
 	font-weight: 600;
 }
 
@@ -366,4 +393,32 @@
 	&:hover {
 		color: #3730a3;
 	}
+}
+
+// === СТИЛИ ДЛЯ ОШИБКИ УСЛОВИЙ ИСПОЛЬЗОВАНИЯ ===
+.termsError {
+	background-color: rgba(255, 71, 87, 0.08);
+	border: 1px solid rgba(255, 71, 87, 0.3);
+	border-radius: 8px;
+	padding: 14px 16px;
+	margin-bottom: 16px;
+	color: #ff4757;
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 1.4;
+	position: relative;
+
+	&::before {
+		content: '⚠️';
+		margin-right: 8px;
+	}
+}
+
+// === УТИЛИТАРНЫЕ КЛАССЫ ===
+.active {
+	padding-right: 20px;
+}
+
+.df {
+	display: flex;
 }
