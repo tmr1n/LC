@@ -11,7 +11,7 @@ const Router = () => {
 				<Route path='/' element={<Layout />}>
 					<Route index element={<Home />} />
 				</Route>
-				{/* ✅ Убираем роуты auth и registration для модалок */}
+
 				<Route path='*' element={<NotFound />} />
 			</Routes>
 		</BrowserRouter>

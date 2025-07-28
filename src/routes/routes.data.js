@@ -6,6 +6,7 @@ export const routes = [
 		component: Home,
 		auth: false
 	}
+
 	// {
 	// 	path: '/registration',
 	// 	component: Registration,

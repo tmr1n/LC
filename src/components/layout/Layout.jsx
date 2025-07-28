@@ -4,25 +4,25 @@ import { Outlet, useLocation } from 'react-router-dom'
 import styles from './layout.module.scss'
 
 import Auth from '../screens/auth/Auth'
+import ForgotPassword from '../screens/forgot-password/ForgotPassword'
 import Registration from '../screens/registration/Registration'
 
+// ← Добавить импорт
 import Header from '@/components/layout/header/Header.jsx'
 
 const Layout = () => {
 	const location = useLocation()
-	const [showRegistration, setShowRegistration] = useState(false)
-	const [showAuth, setShowAuth] = useState(false)
+	const [currentModal, setCurrentModal] = useState(null) // ← Изменить на единое состояние
 	const [isClosing, setIsClosing] = useState(false)
 
+	// ← Обновленные функции управления модалками
 	const openRegistration = () => {
-		setShowRegistration(true)
-		setShowAuth(false)
+		setCurrentModal('registration')
 		setIsClosing(false)
 	}
 
 	const openAuth = () => {
-		setShowAuth(true)
-		setShowRegistration(false)
+		setCurrentModal('auth')
 		setIsClosing(false)
 	}
 
@@ -30,14 +30,29 @@ const Layout = () => {
 		setIsClosing(true)
 
 		setTimeout(() => {
-			setShowRegistration(false)
-			setShowAuth(false)
+			setCurrentModal(null)
 			setIsClosing(false)
 		}, 200)
 	}
 
+	// ← Функции для переключения между видами
+	const switchToAuth = () => {
+		setCurrentModal('auth')
+		setIsClosing(false)
+	}
+
+	const switchToRegistration = () => {
+		setCurrentModal('registration')
+		setIsClosing(false)
+	}
+
+	const switchToForgotPassword = () => {
+		setCurrentModal('forgotPassword')
+		setIsClosing(false)
+	}
+
 	useEffect(() => {
-		if (showRegistration || showAuth) {
+		if (currentModal) {
 			document.body.style.overflow = 'hidden'
 		} else {
 			document.body.style.overflow = 'unset'
@@ -46,11 +61,11 @@ const Layout = () => {
 		return () => {
 			document.body.style.overflow = 'unset'
 		}
-	}, [showRegistration, showAuth])
+	}, [currentModal])
 
 	const hideHeaderPages = []
 	const shouldShowHeader = !hideHeaderPages.includes(location.pathname)
-	const isModalOpen = showRegistration || showAuth
+	const isModalOpen = currentModal !== null
 
 	return (
 		<div>
@@ -64,30 +79,39 @@ const Layout = () => {
 				<main
 					className={isModalOpen ? styles.hiddenContent : ''}
 					style={{
-						visibility: isModalOpen ? 'hidden' : 'visible' // или display: 'none'
+						visibility: isModalOpen ? 'hidden' : 'visible'
 					}}
 				>
 					<Outlet context={{ openRegistration, openAuth }} />
 				</main>
 			)}
 
-			{/* ✅ Только модальные окна анимируются */}
-			{showRegistration && (
+			{/* ✅ Модальные окна с анимациями */}
+			{currentModal === 'registration' && (
 				<div
 					className={`${styles.fullscreenModal} ${isClosing ? styles.closing : ''}`}
 				>
-					<Registration onClose={closeModals} onSwitchToAuth={openAuth} />
+					<Registration onClose={closeModals} onSwitchToAuth={switchToAuth} />
 				</div>
 			)}
 
-			{showAuth && (
+			{currentModal === 'auth' && (
 				<div
 					className={`${styles.fullscreenModal} ${isClosing ? styles.closing : ''}`}
 				>
 					<Auth
 						onClose={closeModals}
-						onSwitchToRegistration={openRegistration}
+						onSwitchToRegistration={switchToRegistration}
+						onSwitchToForgotPassword={switchToForgotPassword}
 					/>
+				</div>
+			)}
+
+			{currentModal === 'forgotPassword' && (
+				<div
+					className={`${styles.fullscreenModal} ${isClosing ? styles.closing : ''}`}
+				>
+					<ForgotPassword onClose={closeModals} onGoBack={switchToAuth} />
 				</div>
 			)}
 		</div>

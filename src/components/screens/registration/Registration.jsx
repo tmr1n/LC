@@ -1,6 +1,8 @@
 import { useState } from 'react'
+import { FaYandex } from 'react-icons/fa'
 import { FcGoogle } from 'react-icons/fc'
 import { GoX } from 'react-icons/go'
+import { TiVendorMicrosoft } from 'react-icons/ti'
 
 import styles from './registration.module.scss'
 
@@ -238,17 +240,43 @@ const Registration = ({ onClose, onSwitchToAuth }) => {
 							</div>
 						</div>
 
-						<button
-							className={`${styles.buttonGray} ${styles.mt15}`}
-							onClick={() => {}}
-						>
-							<FcGoogle
-								className={styles.iconGoogle}
-								fill='#000000'
-								fontSize={25}
-							/>
-							<p>Продолжить с Google</p>
-						</button>
+						<div className={styles.gap}>
+							<button
+								className={`${styles.buttonGray} ${styles.mt15}`}
+								onClick={() => {}}
+							>
+								<FcGoogle
+									className={styles.iconGoogle}
+									fill='#000000'
+									fontSize={25}
+								/>
+								<p>Продолжить с Google</p>
+							</button>
+
+							<button
+								className={`${styles.buttonGray} ${styles.mt15}`}
+								onClick={() => {}}
+							>
+								<TiVendorMicrosoft
+									className={styles.iconMicrosoft}
+									fill='#000000'
+									fontSize={25}
+								/>
+								<p>Продолжить с Microsoft</p>
+							</button>
+
+							<button
+								className={`${styles.buttonGray} ${styles.mt15}`}
+								onClick={() => {}}
+							>
+								<FaYandex
+									className={styles.iconGoogle}
+									fill='#000000'
+									fontSize={25}
+								/>
+								<p>Продолжить с Yandex</p>
+							</button>
+						</div>
 
 						<div className={styles.dividerFlex}>
 							<span className={styles.line}></span>

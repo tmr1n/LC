@@ -126,6 +126,10 @@
 	margin-right: 5px;
 }
 
+.iconMicrosoft {
+	margin-right: 5px;
+}
+
 .dividerFlex {
 	display: flex;
 	align-items: center;
@@ -173,6 +177,10 @@
 	margin-top: 15px;
 }
 
+.gap {
+	gap: 20px;
+}
+
 .buttonBlue {
 	background-color: $blue;
 	color: $bg-white;
@@ -208,7 +216,7 @@
 	width: 100%;
 	height: 50px;
 	padding: 14px 16px;
-	border: 2px solid transparent; // Добавляем прозрачную границу для плавного перехода
+	border: 2px solid transparent;
 	border-radius: 8px;
 	background-color: #f8f9fa;
 	font-size: 16px;
@@ -227,7 +235,6 @@
 		color: #8e9aaf;
 	}
 
-	// === СТИЛИ ДЛЯ ОШИБОК ===
 	&.errorInput {
 		border-color: #ff4757;
 		background-color: #fff5f5;
@@ -247,7 +254,6 @@
 	color: #586380;
 	transition: color 0.3s ease;
 
-	// === СТИЛИ ДЛЯ ОШИБОК ===
 	&.errorLabel {
 		color: #ff4757;
 		font-weight: 700;
@@ -273,8 +279,16 @@
 	color: $blue;
 	text-decoration: none;
 	cursor: pointer;
+	background: none;
+	border: none;
+	padding: 0;
+	outline: none;
 
 	&:hover {
+		color: #7342bc;
+	}
+
+	&:focus {
 		color: #7342bc;
 	}
 }
@@ -421,4 +435,18 @@
 
 .df {
 	display: flex;
+}
+
+.backButton {
+	position: fixed;
+	top: 20px;
+	left: calc(50% + 20px);
+	cursor: pointer;
+	z-index: 10;
+	transition: all 0.2s ease;
+
+	&:hover {
+		transform: scale(1.1);
+		opacity: 0.8;
+	}
 }
