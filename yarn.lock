@@ -810,6 +810,11 @@ cl@^0.0.1:
   resolved "https://registry.yarnpkg.com/cl/-/cl-0.0.1.tgz#e59439adb1a36b8c6f3da053ac49af6fb9e82cab"
   integrity sha512-fM0STeo1HJ2kU/2IdbEi4di+2zZqclfwfWK4NZzISynz+VnjQEHIH5DMm51OETa2WUnl7hzJHyyhY1eSA4g8ow==
 
+clsx@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/clsx/-/clsx-2.1.1.tgz#eed397c9fd8bd882bfb18deab7102049a2f32999"
+  integrity sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA==
+
 cn@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/cn/-/cn-0.1.1.tgz#d97926f6ca5a4792f1af2f336a8eff6abfaed021"

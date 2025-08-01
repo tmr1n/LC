@@ -1,5 +1,9 @@
+import cn from 'clsx'
 import React, { useEffect, useState } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
+
+// ← Добавлено
+import Header from '@/components/layout/header/Header.jsx'
 
 import styles from './layout.module.scss'
 
@@ -7,15 +11,11 @@ import Auth from '../screens/auth/Auth'
 import ForgotPassword from '../screens/forgot-password/ForgotPassword'
 import Registration from '../screens/registration/Registration'
 
-// ← Добавить импорт
-import Header from '@/components/layout/header/Header.jsx'
-
 const Layout = () => {
 	const location = useLocation()
-	const [currentModal, setCurrentModal] = useState(null) // ← Изменить на единое состояние
+	const [currentModal, setCurrentModal] = useState(null)
 	const [isClosing, setIsClosing] = useState(false)
 
-	// ← Обновленные функции управления модалками
 	const openRegistration = () => {
 		setCurrentModal('registration')
 		setIsClosing(false)
@@ -28,14 +28,12 @@ const Layout = () => {
 
 	const closeModals = () => {
 		setIsClosing(true)
-
 		setTimeout(() => {
 			setCurrentModal(null)
 			setIsClosing(false)
 		}, 200)
 	}
 
-	// ← Функции для переключения между видами
 	const switchToAuth = () => {
 		setCurrentModal('auth')
 		setIsClosing(false)
@@ -69,15 +67,13 @@ const Layout = () => {
 
 	return (
 		<div>
-			{/* ✅ Статичный хедер */}
 			{shouldShowHeader && (
 				<Header openRegistration={openRegistration} openAuth={openAuth} />
 			)}
 
-			{/* ✅ Статичный основной контент БЕЗ анимаций */}
 			{!isModalOpen && (
 				<main
-					className={isModalOpen ? styles.hiddenContent : ''}
+					className={cn({ [styles.hiddenContent]: isModalOpen })}
 					style={{
 						visibility: isModalOpen ? 'hidden' : 'visible'
 					}}
@@ -86,10 +82,11 @@ const Layout = () => {
 				</main>
 			)}
 
-			{/* ✅ Модальные окна с анимациями */}
 			{currentModal === 'registration' && (
 				<div
-					className={`${styles.fullscreenModal} ${isClosing ? styles.closing : ''}`}
+					className={cn(styles.fullscreenModal, {
+						[styles.closing]: isClosing
+					})}
 				>
 					<Registration onClose={closeModals} onSwitchToAuth={switchToAuth} />
 				</div>
@@ -97,7 +94,9 @@ const Layout = () => {
 
 			{currentModal === 'auth' && (
 				<div
-					className={`${styles.fullscreenModal} ${isClosing ? styles.closing : ''}`}
+					className={cn(styles.fullscreenModal, {
+						[styles.closing]: isClosing
+					})}
 				>
 					<Auth
 						onClose={closeModals}
@@ -109,7 +108,9 @@ const Layout = () => {
 
 			{currentModal === 'forgotPassword' && (
 				<div
-					className={`${styles.fullscreenModal} ${isClosing ? styles.closing : ''}`}
+					className={cn(styles.fullscreenModal, {
+						[styles.closing]: isClosing
+					})}
 				>
 					<ForgotPassword onClose={closeModals} onGoBack={switchToAuth} />
 				</div>

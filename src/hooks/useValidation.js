@@ -7,7 +7,7 @@ import {
 	validateLoginPassword,
 	validatePassword,
 	validateUsername
-} from '../utils/validation'
+} from '../utils/validation.js'
 
 export const useValidation = () => {
 	const [errors, setErrors] = useState({})

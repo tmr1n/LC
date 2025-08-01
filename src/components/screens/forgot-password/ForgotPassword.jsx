@@ -1,6 +1,10 @@
+import cn from 'clsx'
 import { useState } from 'react'
 import { GoArrowLeft, GoX } from 'react-icons/go'
 
+import { useValidation } from '@/hooks/useValidation.js'
+
+// ← импорт clsx
 import styles from '@/components/screens/registration/Registration.module.scss'
 
 const ForgotPassword = ({ onClose, onGoBack }) => {
@@ -8,48 +12,21 @@ const ForgotPassword = ({ onClose, onGoBack }) => {
 		email: ''
 	})
 
-	const [errors, setErrors] = useState({})
-
-	const validateEmail = email => {
-		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-		return emailRegex.test(email)
-	}
+	const { errors, validateField, validateForm } = useValidation()
 
 	const handleInputChange = (field, value) => {
 		setFormData(prev => ({
 			...prev,
 			[field]: value
 		}))
-
-		const newErrors = { ...errors }
-
-		switch (field) {
-			case 'email':
-				if (value && !validateEmail(value)) {
-					newErrors.email = ['Недопустимый адрес эл. почты']
-				} else {
-					delete newErrors.email
-				}
-				break
-		}
-
-		setErrors(newErrors)
+		validateField(field, value)
 	}
 
 	const handleSubmit = () => {
-		const newErrors = {}
+		const validationErrors = validateForm(formData, 'forgotPassword')
 
-		if (!formData.email) {
-			newErrors.email = ['Поле обязательно для заполнения']
-		} else if (!validateEmail(formData.email)) {
-			newErrors.email = ['Недопустимый адрес эл. почты']
-		}
-
-		setErrors(newErrors)
-
-		if (Object.keys(newErrors).length === 0) {
+		if (Object.keys(validationErrors).length === 0) {
 			console.log('Отправка ссылки для сброса пароля на:', formData.email)
-			// Здесь логика отправки письма
 		}
 	}
 
@@ -93,14 +70,18 @@ const ForgotPassword = ({ onClose, onGoBack }) => {
 					<div className={styles.inputGroup}>
 						<label
 							htmlFor='email'
-							className={`${styles.fieldLabel} ${errors.email ? styles.errorLabel : ''}`}
+							className={cn(styles.fieldLabel, {
+								[styles.errorLabel]: errors.email
+							})}
 						>
 							{errors.email ? errors.email[0] : 'Email'}
 						</label>
 						<input
 							type='email'
 							id='email'
-							className={`${styles.inputField} ${errors.email ? styles.errorInput : ''}`}
+							className={cn(styles.inputField, {
+								[styles.errorInput]: errors.email
+							})}
 							placeholder='user@mail.com'
 							value={formData.email}
 							onChange={e => handleInputChange('email', e.target.value)}

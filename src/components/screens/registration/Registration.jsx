@@ -1,13 +1,16 @@
+import cn from 'clsx'
 import { useState } from 'react'
 import { FaYandex } from 'react-icons/fa'
 import { FcGoogle } from 'react-icons/fc'
 import { GoX } from 'react-icons/go'
 import { TiVendorMicrosoft } from 'react-icons/ti'
 
+import { useValidation } from '@/hooks/useValidation.js'
+
+// ← импорт clsx как cn
 import styles from './registration.module.scss'
 
 const Registration = ({ onClose, onSwitchToAuth }) => {
-	// Состояние для значений полей
 	const [formData, setFormData] = useState({
 		email: '',
 		username: '',
@@ -17,185 +20,19 @@ const Registration = ({ onClose, onSwitchToAuth }) => {
 		termsAccepted: false
 	})
 
-	// Состояние для ошибок
-	const [errors, setErrors] = useState({})
-
-	// Состояние для отображения паролей
 	const [showPassword, setShowPassword] = useState(false)
 	const [showPasswordRepeat, setShowPasswordRepeat] = useState(false)
+	const { errors, validateField, validateForm } = useValidation()
 
-	// Функции валидации
-	const validateEmail = email => {
-		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-		return emailRegex.test(email)
-	}
-
-	const validateUsername = username => {
-		const errors = []
-
-		if (username.length < 3) {
-			errors.push(
-				'Имя пользователя слишком короткое. Оно должно содержать не менее 3 символов.'
-			)
-		}
-
-		if (!/^[A-Za-z]/.test(username)) {
-			errors.push(
-				'Имена пользователей должны начинаться с букв A-Z и не могут содержать символы с диакритическими знаками.'
-			)
-		}
-
-		if (!/^[A-Za-z0-9_-]+$/.test(username)) {
-			errors.push(
-				'Имя пользователя может содержать только буквы, цифры, подчеркивания и дефисы.'
-			)
-		}
-
-		// Симуляция проверки на занятость имени
-		const takenUsernames = ['admin', 'user', 'test', 'andrew123'] // Это должно приходить с сервера
-		if (takenUsernames.includes(username.toLowerCase())) {
-			errors.push('Это имя пользователя уже занято.')
-		}
-
-		return errors
-	}
-
-	const validatePassword = password => {
-		const errors = []
-
-		if (password.length < 8) {
-			errors.push('Слишком короткий пароль. Минимальная длина – 8 знаков.')
-		}
-
-		if (!/[A-Z]/.test(password)) {
-			errors.push('Пароль должен содержать одну большую букву.')
-		}
-
-		if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
-			errors.push('Пароль должен содержать один специальный символ.')
-		}
-
-		// Простая проверка на сложность
-		const commonPasswords = ['password', '12345678', 'qwerty123']
-		if (commonPasswords.includes(password.toLowerCase())) {
-			errors.push('Выберите пароль, который не так легко угадать.')
-		}
-
-		return errors
-	}
-
-	// Обработчик изменения значений полей
 	const handleInputChange = (field, value) => {
-		setFormData(prev => ({
-			...prev,
-			[field]: value
-		}))
-
-		// Валидация в реальном времени
-		const newErrors = { ...errors }
-
-		switch (field) {
-			case 'email':
-				if (value && !validateEmail(value)) {
-					newErrors.email = ['Недопустимый адрес эл. почты']
-				} else {
-					delete newErrors.email
-				}
-				break
-
-			case 'username':
-				if (value) {
-					const usernameErrors = validateUsername(value)
-					if (usernameErrors.length > 0) {
-						newErrors.username = usernameErrors
-					} else {
-						delete newErrors.username
-					}
-				} else {
-					delete newErrors.username
-				}
-				break
-
-			case 'password':
-				if (value) {
-					const passwordErrors = validatePassword(value)
-					if (passwordErrors.length > 0) {
-						newErrors.password = passwordErrors
-					} else {
-						delete newErrors.password
-					}
-				} else {
-					delete newErrors.password
-				}
-
-				// Проверяем совпадение паролей
-				if (formData.passwordRepeat && value !== formData.passwordRepeat) {
-					newErrors.passwordRepeat = ['Пароли не совпадают']
-				} else if (
-					formData.passwordRepeat &&
-					value === formData.passwordRepeat
-				) {
-					delete newErrors.passwordRepeat
-				}
-				break
-
-			case 'passwordRepeat':
-				if (value && value !== formData.password) {
-					newErrors.passwordRepeat = ['Пароли не совпадают']
-				} else {
-					delete newErrors.passwordRepeat
-				}
-				break
-		}
-
-		setErrors(newErrors)
+		const newFormData = { ...formData, [field]: value }
+		setFormData(newFormData)
+		validateField(field, value, newFormData)
 	}
 
-	// Обработчик отправки формы
 	const handleSubmit = () => {
-		const newErrors = {}
-
-		// Проверяем все поля
-		if (!formData.email) {
-			newErrors.email = ['Поле обязательно для заполнения']
-		} else if (!validateEmail(formData.email)) {
-			newErrors.email = ['Недопустимый адрес эл. почты']
-		}
-
-		if (!formData.username) {
-			newErrors.username = ['Поле обязательно для заполнения']
-		} else {
-			const usernameErrors = validateUsername(formData.username)
-			if (usernameErrors.length > 0) {
-				newErrors.username = usernameErrors
-			}
-		}
-
-		if (!formData.password) {
-			newErrors.password = ['Поле обязательно для заполнения']
-		} else {
-			const passwordErrors = validatePassword(formData.password)
-			if (passwordErrors.length > 0) {
-				newErrors.password = passwordErrors
-			}
-		}
-
-		if (!formData.passwordRepeat) {
-			newErrors.passwordRepeat = ['Поле обязательно для заполнения']
-		} else if (formData.password !== formData.passwordRepeat) {
-			newErrors.passwordRepeat = ['Пароли не совпадают']
-		}
-
-		if (!formData.termsAccepted) {
-			newErrors.terms = [
-				'Примите условия предоставления услуг и политику конфиденциальности LangCards, чтобы продолжить.'
-			]
-		}
-
-		setErrors(newErrors)
-
-		if (Object.keys(newErrors).length === 0) {
-			// Форма валидна, можно отправлять данные
+		const validationErrors = validateForm(formData, 'registration')
+		if (Object.keys(validationErrors).length === 0) {
 			console.log('Форма отправлена:', formData)
 		}
 	}
@@ -219,11 +56,12 @@ const Registration = ({ onClose, onSwitchToAuth }) => {
 						fontSize={30}
 						onClick={onClose}
 					/>
+
 					<div className={styles.container}>
 						<div className={styles.titleNames}>
 							<div className={styles.underline}>
 								<h3
-									className={`${styles.regTitle} ${styles.withUnderline}`}
+									className={cn(styles.regTitle, styles.withUnderline)}
 									onClick={() => ''}
 								>
 									Зарегистрироваться
@@ -232,7 +70,7 @@ const Registration = ({ onClose, onSwitchToAuth }) => {
 
 							<div className={styles.underline}>
 								<h3
-									className={`${styles.regTitle} ${styles.inActive}`}
+									className={cn(styles.regTitle, styles.inActive)}
 									onClick={onSwitchToAuth}
 								>
 									Вход
@@ -242,7 +80,7 @@ const Registration = ({ onClose, onSwitchToAuth }) => {
 
 						<div className={styles.gap}>
 							<button
-								className={`${styles.buttonGray} ${styles.mt15}`}
+								className={cn(styles.buttonGray, styles.mt15)}
 								onClick={() => {}}
 							>
 								<FcGoogle
@@ -254,7 +92,7 @@ const Registration = ({ onClose, onSwitchToAuth }) => {
 							</button>
 
 							<button
-								className={`${styles.buttonGray} ${styles.mt15}`}
+								className={cn(styles.buttonGray, styles.mt15)}
 								onClick={() => {}}
 							>
 								<TiVendorMicrosoft
@@ -266,7 +104,7 @@ const Registration = ({ onClose, onSwitchToAuth }) => {
 							</button>
 
 							<button
-								className={`${styles.buttonGray} ${styles.mt15}`}
+								className={cn(styles.buttonGray, styles.mt15)}
 								onClick={() => {}}
 							>
 								<FaYandex
@@ -288,14 +126,18 @@ const Registration = ({ onClose, onSwitchToAuth }) => {
 						<div className={styles.inputGroup}>
 							<label
 								htmlFor='email'
-								className={`${styles.fieldLabel} ${errors.email ? styles.errorLabel : ''}`}
+								className={cn(styles.fieldLabel, {
+									[styles.errorLabel]: errors.email
+								})}
 							>
 								{errors.email ? errors.email[0] : 'Email'}
 							</label>
 							<input
 								type='email'
 								id='email'
-								className={`${styles.inputField} ${errors.email ? styles.errorInput : ''}`}
+								className={cn(styles.inputField, {
+									[styles.errorInput]: errors.email
+								})}
 								placeholder='user@mail.com'
 								value={formData.email}
 								onChange={e => handleInputChange('email', e.target.value)}
@@ -306,19 +148,22 @@ const Registration = ({ onClose, onSwitchToAuth }) => {
 						<div className={styles.inputGroup}>
 							<label
 								htmlFor='username'
-								className={`${styles.fieldLabel} ${errors.username ? styles.errorLabel : ''}`}
+								className={cn(styles.fieldLabel, {
+									[styles.errorLabel]: errors.username
+								})}
 							>
 								{errors.username ? errors.username[0] : 'Имя пользователя'}
 							</label>
 							<input
 								type='text'
 								id='username'
-								className={`${styles.inputField} ${errors.username ? styles.errorInput : ''}`}
+								className={cn(styles.inputField, {
+									[styles.errorInput]: errors.username
+								})}
 								placeholder='andrew123'
 								value={formData.username}
 								onChange={e => handleInputChange('username', e.target.value)}
 							/>
-							{/* Дополнительные ошибки для username */}
 							{errors.username && errors.username.length > 1 && (
 								<div className={styles.additionalErrors}>
 									{errors.username.slice(1).map((error, index) => (
@@ -334,7 +179,9 @@ const Registration = ({ onClose, onSwitchToAuth }) => {
 						<div className={styles.inputGroup}>
 							<label
 								htmlFor='password'
-								className={`${styles.fieldLabel} ${errors.password ? styles.errorLabel : ''}`}
+								className={cn(styles.fieldLabel, {
+									[styles.errorLabel]: errors.password
+								})}
 							>
 								{errors.password ? errors.password[0] : 'Пароль'}
 							</label>
@@ -342,7 +189,9 @@ const Registration = ({ onClose, onSwitchToAuth }) => {
 								<input
 									type={showPassword ? 'text' : 'password'}
 									id='password'
-									className={`${styles.inputField} ${errors.password ? styles.errorInput : ''}`}
+									className={cn(styles.inputField, {
+										[styles.errorInput]: errors.password
+									})}
 									placeholder='••••••••'
 									value={formData.password}
 									onChange={e => handleInputChange('password', e.target.value)}
@@ -360,7 +209,6 @@ const Registration = ({ onClose, onSwitchToAuth }) => {
 									</svg>
 								</button>
 							</div>
-							{/* Дополнительные ошибки для password */}
 							{errors.password && errors.password.length > 1 && (
 								<div className={styles.additionalErrors}>
 									{errors.password.slice(1).map((error, index) => (
@@ -376,7 +224,9 @@ const Registration = ({ onClose, onSwitchToAuth }) => {
 						<div className={styles.inputGroup}>
 							<label
 								htmlFor='passwordRepeat'
-								className={`${styles.fieldLabel} ${errors.passwordRepeat ? styles.errorLabel : ''}`}
+								className={cn(styles.fieldLabel, {
+									[styles.errorLabel]: errors.passwordRepeat
+								})}
 							>
 								{errors.passwordRepeat
 									? errors.passwordRepeat[0]
@@ -386,7 +236,9 @@ const Registration = ({ onClose, onSwitchToAuth }) => {
 								<input
 									type={showPasswordRepeat ? 'text' : 'password'}
 									id='passwordRepeat'
-									className={`${styles.inputField} ${errors.passwordRepeat ? styles.errorInput : ''}`}
+									className={cn(styles.inputField, {
+										[styles.errorInput]: errors.passwordRepeat
+									})}
 									placeholder='••••••••'
 									value={formData.passwordRepeat}
 									onChange={e =>
@@ -452,7 +304,6 @@ const Registration = ({ onClose, onSwitchToAuth }) => {
 							</label>
 						</div>
 
-						{/* Ошибка условий использования */}
 						{errors.terms && (
 							<div className={styles.termsError}>{errors.terms[0]}</div>
 						)}

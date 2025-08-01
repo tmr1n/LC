@@ -9,9 +9,10 @@
   "plugins": ["@trivago/prettier-plugin-sort-imports"],
   "importOrder": [
     "<THIRD_PARTY_MODULES>",
-    "^../../hooks/(.*)",
-    "^../../components/(.*)",
-    "^../../screens/(.*)",
+    "^@/hooks/(.*)",
+    "^@/components/(.*)",
+    "^@/layout/(.*)",
+    "^@/screens/(.*)",
     "^.*\\.module\\.scss$",
     "^../(.*)",
     "^./(.*)"

@@ -1,8 +1,12 @@
+import cn from 'clsx'
 import { useState } from 'react'
 import { FaYandex } from 'react-icons/fa'
 import { FcGoogle } from 'react-icons/fc'
 import { GoX } from 'react-icons/go'
 import { TiVendorMicrosoft } from 'react-icons/ti'
+
+// ← импорт clsx как cn
+import { useValidation } from '@/hooks/useValidation.js'
 
 import styles from '../registration/registration.module.scss'
 
@@ -11,139 +15,33 @@ const Auth = ({
 	onSwitchToRegistration,
 	onSwitchToForgotPassword
 }) => {
-	// Состояние для значений полей
 	const [formData, setFormData] = useState({
 		emailOrUsername: '',
 		password: ''
 	})
 
-	// Состояние для ошибок
-	const [errors, setErrors] = useState({})
-
-	// Состояние для отображения пароля
 	const [showPassword, setShowPassword] = useState(false)
 
-	// Функция валидации email или username
-	const validateEmailOrUsername = value => {
-		const errors = []
+	const { errors, validateField, validateForm } = useValidation()
 
-		if (!value) {
-			errors.push('Поле обязательно для заполнения')
-			return errors
-		}
-
-		// Проверяем, является ли это email
-		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-		const isEmail = emailRegex.test(value)
-
-		// Проверяем, является ли это валидным username
-		const usernameRegex = /^[A-Za-z][A-Za-z0-9_-]*$/
-		const isValidUsername = usernameRegex.test(value) && value.length >= 3
-
-		if (!isEmail && !isValidUsername) {
-			if (value.includes('@')) {
-				errors.push('Недопустимый адрес эл. почты')
-			} else {
-				if (value.length < 3) {
-					errors.push('Имя пользователя слишком короткое. Минимум 3 символа')
-				} else if (!/^[A-Za-z]/.test(value)) {
-					errors.push('Имя пользователя должно начинаться с буквы')
-				} else if (!/^[A-Za-z0-9_-]+$/.test(value)) {
-					errors.push(
-						'Имя пользователя может содержать только буквы, цифры, подчеркивания и дефисы'
-					)
-				}
-			}
-		}
-
-		return errors
-	}
-
-	// Функция валидации пароля для входа (упрощенная)
-	const validatePassword = password => {
-		const errors = []
-
-		if (!password) {
-			errors.push('Введите пароль')
-			return errors
-		}
-
-		if (password.length < 1) {
-			errors.push('Пароль не может быть пустым')
-		}
-
-		return errors
-	}
-
-	// Обработчик изменения значений полей
 	const handleInputChange = (field, value) => {
 		setFormData(prev => ({
 			...prev,
 			[field]: value
 		}))
-
-		// Валидация в реальном времени
-		const newErrors = { ...errors }
-
-		switch (field) {
-			case 'emailOrUsername':
-				if (value) {
-					const validationErrors = validateEmailOrUsername(value)
-					if (validationErrors.length > 0) {
-						newErrors.emailOrUsername = validationErrors
-					} else {
-						delete newErrors.emailOrUsername
-					}
-				} else {
-					delete newErrors.emailOrUsername
-				}
-				break
-
-			case 'password':
-				if (value) {
-					const passwordErrors = validatePassword(value)
-					if (passwordErrors.length > 0) {
-						newErrors.password = passwordErrors
-					} else {
-						delete newErrors.password
-					}
-				} else {
-					delete newErrors.password
-				}
-				break
-		}
-
-		setErrors(newErrors)
+		// При валидации пароль использует ключ 'loginPassword'
+		const fieldType = field === 'password' ? 'loginPassword' : field
+		validateField(fieldType, value, formData)
 	}
 
-	// Обработчик отправки формы
 	const handleSubmit = () => {
-		const newErrors = {}
-
-		// Проверяем поле email/username
-		const emailUsernameErrors = validateEmailOrUsername(
-			formData.emailOrUsername
-		)
-		if (emailUsernameErrors.length > 0) {
-			newErrors.emailOrUsername = emailUsernameErrors
-		}
-
-		// Проверяем пароль
-		const passwordErrors = validatePassword(formData.password)
-		if (passwordErrors.length > 0) {
-			newErrors.password = passwordErrors
-		}
-
-		setErrors(newErrors)
-
-		if (Object.keys(newErrors).length === 0) {
-			// Форма валидна, можно отправлять данные
+		const validationErrors = validateForm(formData, 'auth')
+		if (Object.keys(validationErrors).length === 0) {
 			console.log('Вход выполнен:', formData)
-			// Здесь будет логика авторизации
 		}
 	}
 
-	// Функция для определения типа ввода для placeholder и label
+	// Определяем label и placeholder для поля ввода
 	const getInputHint = () => {
 		if (!formData.emailOrUsername) {
 			return {
@@ -151,7 +49,6 @@ const Auth = ({
 				placeholder: 'Введите адрес эл. почты или имя пользователя'
 			}
 		}
-
 		if (formData.emailOrUsername.includes('@')) {
 			return {
 				label: 'Email',
@@ -193,7 +90,7 @@ const Auth = ({
 							{/* Вкладка "Регистрация" */}
 							<div className={styles.underline}>
 								<h3
-									className={`${styles.regTitle} ${styles.inActive}`}
+									className={cn(styles.regTitle, styles.inActive)}
 									onClick={onSwitchToRegistration}
 								>
 									Зарегистрироваться
@@ -203,8 +100,8 @@ const Auth = ({
 							{/* Вкладка "Вход" */}
 							<div className={styles.underline}>
 								<h3
-									className={`${styles.regTitle} ${styles.withUnderline}`}
-									onClick={() => ''}
+									className={cn(styles.regTitle, styles.withUnderline)}
+									onClick={() => {}}
 								>
 									Вход
 								</h3>
@@ -213,7 +110,7 @@ const Auth = ({
 
 						<div className={styles.gap}>
 							<button
-								className={`${styles.buttonGray} ${styles.mt15}`}
+								className={cn(styles.buttonGray, styles.mt15)}
 								onClick={() => {}}
 							>
 								<FcGoogle
@@ -225,7 +122,7 @@ const Auth = ({
 							</button>
 
 							<button
-								className={`${styles.buttonGray} ${styles.mt15}`}
+								className={cn(styles.buttonGray, styles.mt15)}
 								onClick={() => {}}
 							>
 								<TiVendorMicrosoft
@@ -237,7 +134,7 @@ const Auth = ({
 							</button>
 
 							<button
-								className={`${styles.buttonGray} ${styles.mt15}`}
+								className={cn(styles.buttonGray, styles.mt15)}
 								onClick={() => {}}
 							>
 								<FaYandex
@@ -259,7 +156,9 @@ const Auth = ({
 						<div className={styles.inputGroup}>
 							<label
 								htmlFor='emailOrUsername'
-								className={`${styles.fieldLabel} ${errors.emailOrUsername ? styles.errorLabel : ''}`}
+								className={cn(styles.fieldLabel, {
+									[styles.errorLabel]: errors.emailOrUsername
+								})}
 							>
 								{errors.emailOrUsername
 									? errors.emailOrUsername[0]
@@ -268,7 +167,9 @@ const Auth = ({
 							<input
 								type='text'
 								id='emailOrUsername'
-								className={`${styles.inputField} ${errors.emailOrUsername ? styles.errorInput : ''}`}
+								className={cn(styles.inputField, {
+									[styles.errorInput]: errors.emailOrUsername
+								})}
 								placeholder={inputHint.placeholder}
 								value={formData.emailOrUsername}
 								onChange={e =>
@@ -293,7 +194,9 @@ const Auth = ({
 							<div className={styles.labelRow}>
 								<label
 									htmlFor='password'
-									className={`${styles.fieldLabel} ${errors.password ? styles.errorLabel : ''}`}
+									className={cn(styles.fieldLabel, {
+										[styles.errorLabel]: errors.password
+									})}
 								>
 									{errors.password ? errors.password[0] : 'Пароль'}
 								</label>
@@ -309,7 +212,9 @@ const Auth = ({
 								<input
 									type={showPassword ? 'text' : 'password'}
 									id='password'
-									className={`${styles.inputField} ${errors.password ? styles.errorInput : ''}`}
+									className={cn(styles.inputField, {
+										[styles.errorInput]: errors.password
+									})}
 									placeholder='••••••••'
 									value={formData.password}
 									onChange={e => handleInputChange('password', e.target.value)}
