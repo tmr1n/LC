@@ -1,3 +1,4 @@
+import { useMutation } from '@tanstack/react-query'
 import cn from 'clsx'
 import { useState } from 'react'
 import { FaYandex } from 'react-icons/fa'
@@ -10,13 +11,15 @@ import { useValidation } from '@/hooks/useValidation.js'
 
 import styles from '../registration/registration.module.scss'
 
+import { login } from '@/services/Auth.service'
+
 const Auth = ({
 	onClose,
 	onSwitchToRegistration,
 	onSwitchToForgotPassword
 }) => {
 	const [formData, setFormData] = useState({
-		emailOrUsername: '',
+		email: '',
 		password: ''
 	})
 
@@ -34,10 +37,28 @@ const Auth = ({
 		validateField(fieldType, value, formData)
 	}
 
+	const loginMutation = useMutation({
+		mutationFn: login,
+		onSuccess: data => {
+			localStorage.setItem('accessToken', data.token)
+			// Можно обновить состояние в контексте / сторе, например:
+			// authStore.setUser(data.user);
+			alert('Вход выполнен успешно!')
+			// Перенаправить на главную
+			// navigate('/dashboard'); // если используешь react-router
+		},
+		onError: error => {
+			alert(error?.response?.data?.message || 'Ошибка входа')
+		}
+	})
+
 	const handleSubmit = () => {
 		const validationErrors = validateForm(formData, 'auth')
 		if (Object.keys(validationErrors).length === 0) {
-			console.log('Вход выполнен:', formData)
+			loginMutation.mutate({
+				email: formData.emailOrUsername,
+				password: formData.password
+			})
 		}
 	}
 

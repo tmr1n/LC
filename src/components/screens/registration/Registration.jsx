@@ -1,3 +1,4 @@
+import { useMutation } from '@tanstack/react-query'
 import cn from 'clsx'
 import { useState } from 'react'
 import { FaYandex } from 'react-icons/fa'
@@ -9,6 +10,8 @@ import { useValidation } from '@/hooks/useValidation.js'
 
 // ← импорт clsx как cn
 import styles from './registration.module.scss'
+
+import { register } from '@/services/Registration.service'
 
 const Registration = ({ onClose, onSwitchToAuth }) => {
 	const [formData, setFormData] = useState({
@@ -30,10 +33,34 @@ const Registration = ({ onClose, onSwitchToAuth }) => {
 		validateField(field, value, newFormData)
 	}
 
+	const registrationMutation = useMutation({
+		mutationFn: register,
+		onSuccess: () => {
+			alert('Регистрация прошла успешно! Пожалуйста, войдите.')
+			setFormData({
+				email: '',
+				username: '',
+				password: '',
+				passwordRepeat: '',
+				newsConsent: false,
+				termsAccepted: false
+			})
+		},
+		onError: error => {
+			alert(error?.response?.data?.message || 'Ошибка при регистрации')
+		}
+	})
+
 	const handleSubmit = () => {
 		const validationErrors = validateForm(formData, 'registration')
 		if (Object.keys(validationErrors).length === 0) {
-			console.log('Форма отправлена:', formData)
+			const dataToSend = {
+				email: formData.email,
+				name: formData.username,
+				password: formData.password,
+				password_confirmation: formData.passwordRepeat
+			}
+			registrationMutation.mutate(dataToSend)
 		}
 	}
 
