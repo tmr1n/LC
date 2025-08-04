@@ -25,7 +25,8 @@ const Auth = ({
 
 	const [showPassword, setShowPassword] = useState(false)
 
-	const { errors, validateField, validateForm } = useValidation()
+	const { errors, validateField, validateForm, clearErrors, setErrors } =
+		useValidation()
 
 	const handleInputChange = (field, value) => {
 		setFormData(prev => ({
@@ -46,6 +47,7 @@ const Auth = ({
 			alert('Вход выполнен успешно!')
 			// Перенаправить на главную
 			// navigate('/dashboard'); // если используешь react-router
+			clearErrors()
 		},
 		onError: error => {
 			alert(error?.response?.data?.message || 'Ошибка входа')

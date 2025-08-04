@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const api = axios.create({
-	baseURL: 'https://57a0aca902dd.ngrok-free.app/api/v1',
+	baseURL: 'https://e9222b0ba175.ngrok-free.app/api/v1',
 	withCredentials: true
 })
 
@@ -61,7 +61,7 @@ api.interceptors.response.use(
 			try {
 				// Запрос на backend для refresh (refresh-токен в httpOnly cookie)
 				const res = await axios.post(
-					'https://57a0aca902dd.ngrok-free.app/api/v1/auth/refresh',
+					'https://e9222b0ba175.ngrok-free.app/api/v1/auth/refresh',
 					{},
 					{ withCredentials: true }
 				)
@@ -86,3 +86,5 @@ api.interceptors.response.use(
 		return Promise.reject(error)
 	}
 )
+
+export default api
