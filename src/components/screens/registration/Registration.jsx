@@ -50,8 +50,10 @@ const Registration = ({ onClose, onSwitchToAuth }) => {
 			alert(error?.response?.data?.message || 'Ошибка при регистрации')
 		}
 	})
+	const isLoading = registrationMutation.isLoading
 
 	const handleSubmit = () => {
+		if (isLoading) return
 		const validationErrors = validateForm(formData, 'registration')
 		if (Object.keys(validationErrors).length === 0) {
 			const dataToSend = {
@@ -335,7 +337,11 @@ const Registration = ({ onClose, onSwitchToAuth }) => {
 							<div className={styles.termsError}>{errors.terms[0]}</div>
 						)}
 
-						<button className={styles.buttonBlue} onClick={handleSubmit}>
+						<button
+							className={styles.buttonBlue}
+							onClick={handleSubmit}
+							disabled={isLoading}
+						>
 							<p>Зарегистрироваться</p>
 						</button>
 						<button className={styles.buttonGray} onClick={onSwitchToAuth}>

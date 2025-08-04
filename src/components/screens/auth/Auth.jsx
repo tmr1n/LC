@@ -53,6 +53,7 @@ const Auth = ({
 	})
 
 	const handleSubmit = () => {
+		if (loginMutation.isLoading) return
 		const validationErrors = validateForm(formData, 'auth')
 		if (Object.keys(validationErrors).length === 0) {
 			loginMutation.mutate({
@@ -256,7 +257,11 @@ const Auth = ({
 							</div>
 						</div>
 
-						<button className={styles.buttonBlue} onClick={handleSubmit}>
+						<button
+							className={styles.buttonBlue}
+							onClick={handleSubmit}
+							disabled={loginMutation.isLoading}
+						>
 							<p>Вход</p>
 						</button>
 						<button
