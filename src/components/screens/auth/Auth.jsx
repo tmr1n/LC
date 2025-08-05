@@ -28,7 +28,8 @@ const Auth = ({
 
 	const [showPassword, setShowPassword] = useState(false)
 
-	const { errors, validateField, validateForm, clearErrors } = useValidation()
+	const { errors, debouncedValidateField, validateForm, clearErrors } =
+		useValidation()
 
 	const [isLoading, setIsLoading] = useState(false)
 
@@ -39,7 +40,7 @@ const Auth = ({
 		}))
 		// При валидации пароль использует ключ 'loginPassword'
 		const fieldType = field === 'password' ? 'loginPassword' : field
-		validateField(fieldType, value, formData)
+		debouncedValidateField(fieldType, value, formData)
 	}
 
 	const loginMutation = useMutation({

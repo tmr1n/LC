@@ -29,15 +29,20 @@ const Registration = ({ onClose, onSwitchToAuth }) => {
 
 	const [showPassword, setShowPassword] = useState(false)
 	const [showPasswordRepeat, setShowPasswordRepeat] = useState(false)
-	const { errors, validateField, validateForm, clearErrors, setErrors } =
-		useValidation()
+	const {
+		errors,
+		debouncedValidateField,
+		validateForm,
+		clearErrors,
+		setErrors
+	} = useValidation()
 
 	const isLoading = status === 'loading'
 
 	const handleInputChange = (field, value) => {
 		const newFormData = { ...formData, [field]: value }
 		setFormData(newFormData)
-		validateField(field, value, newFormData)
+		debouncedValidateField(field, value, newFormData)
 	}
 
 	const registrationMutation = useMutation({

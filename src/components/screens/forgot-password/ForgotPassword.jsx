@@ -12,14 +12,14 @@ const ForgotPassword = ({ onClose, onGoBack }) => {
 		email: ''
 	})
 
-	const { errors, validateField, validateForm } = useValidation()
+	const { errors, debouncedValidateField, validateForm } = useValidation()
 
 	const handleInputChange = (field, value) => {
 		setFormData(prev => ({
 			...prev,
 			[field]: value
 		}))
-		validateField(field, value)
+		debouncedValidateField(field, value)
 	}
 
 	const handleSubmit = () => {
