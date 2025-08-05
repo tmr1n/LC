@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
+import Realistic from 'react-canvas-confetti/dist/presets/realistic'
 
-import Confetti from '../../loader/Confetti.jsx'
-
-export default function TestConfetti() {
-	const [show, setShow] = useState(false)
+export default function ConfettiOnClick() {
+	const [showConfetti, setShowConfetti] = useState(false)
 
 	return (
-		<>
-			<button onClick={() => setShow(true)}>Запустить конфетти</button>
-			{show && <Confetti />}
-		</>
+		<div>
+			<button onClick={() => setShowConfetti(true)}>Запустить конфетти</button>
+
+			{showConfetti && <Realistic autorun={{ speed: 0.3 }} />}
+		</div>
 	)
 }

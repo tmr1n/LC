@@ -1,6 +1,5 @@
+//import Realistic from 'react-canvas-confetti/dist/presets/realistic'
 import { useOutletContext } from 'react-router-dom'
-
-import Conf from '@/components/layout/test/Conf'
 
 import styles from './home.module.scss'
 
@@ -18,7 +17,6 @@ const Home = () => {
 			<button className={styles.buttonBluee} onClick={openRegistration}>
 				Зарегистрироваться бесплатно
 			</button>
-			<Conf />
 		</section>
 	)
 }

@@ -1,8 +1,12 @@
 import axios from 'axios'
 
 const api = axios.create({
-	baseURL: 'https://e9222b0ba175.ngrok-free.app/api/v1',
-	withCredentials: true
+	baseURL: 'https://ea1cb789ba29.ngrok-free.app/api/v1',
+	withCredentials: true,
+	headers: {
+		accept: 'application/json',
+		'content-Type': 'application/json'
+	}
 })
 
 let isRefreshing = false
@@ -60,12 +64,8 @@ api.interceptors.response.use(
 
 			try {
 				// Запрос на backend для refresh (refresh-токен в httpOnly cookie)
-				const res = await axios.post(
-					'https://e9222b0ba175.ngrok-free.app/api/v1/auth/refresh',
-					{},
-					{ withCredentials: true }
-				)
-				const newAccessToken = res.data.accessToken
+				const res = await api.post('refresh')
+				const newAccessToken = res.data.data.access_token
 
 				localStorage.setItem('accessToken', newAccessToken)
 				api.defaults.headers.common['Authorization'] =

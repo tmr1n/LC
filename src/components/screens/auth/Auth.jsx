@@ -5,6 +5,7 @@ import { FaYandex } from 'react-icons/fa'
 import { FcGoogle } from 'react-icons/fc'
 import { GoX } from 'react-icons/go'
 import { TiVendorMicrosoft } from 'react-icons/ti'
+import { useNavigate } from 'react-router-dom'
 
 // ← импорт clsx как cn
 import { useValidation } from '@/hooks/useValidation.js'
@@ -23,10 +24,13 @@ const Auth = ({
 		password: ''
 	})
 
+	const navigate = useNavigate()
+
 	const [showPassword, setShowPassword] = useState(false)
 
-	const { errors, validateField, validateForm, clearErrors, setErrors } =
-		useValidation()
+	const { errors, validateField, validateForm, clearErrors } = useValidation()
+
+	const [isLoading, setIsLoading] = useState(false)
 
 	const handleInputChange = (field, value) => {
 		setFormData(prev => ({
@@ -39,23 +43,35 @@ const Auth = ({
 	}
 
 	const loginMutation = useMutation({
+		// Вызывается ПЕРЕД запросом
+		onMutate: async () => {
+			setIsLoading(true)
+		},
 		mutationFn: login,
 		onSuccess: data => {
-			localStorage.setItem('accessToken', data.token)
+			console.log(data)
+			localStorage.setItem('accessToken', data.data.access_token)
 			// Можно обновить состояние в контексте / сторе, например:
 			// authStore.setUser(data.user);
-			alert('Вход выполнен успешно!')
+			navigate('/test')
 			// Перенаправить на главную
 			// navigate('/dashboard'); // если используешь react-router
 			clearErrors()
 		},
 		onError: error => {
+			console.log(error)
 			alert(error?.response?.data?.message || 'Ошибка входа')
+		},
+		// Вызывается в ЛЮБОМ случае — успех или ошибка
+		onSettled: () => {
+			setIsLoading(false)
 		}
 	})
 
 	const handleSubmit = () => {
-		if (loginMutation.isLoading) return
+		if (isLoading) {
+			return
+		}
 		const validationErrors = validateForm(formData, 'auth')
 		if (Object.keys(validationErrors).length === 0) {
 			loginMutation.mutate({

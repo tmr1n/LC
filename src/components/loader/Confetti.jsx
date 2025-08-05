@@ -1,5 +1,6 @@
-import Confetti from 'react-confetti'
+import React from 'react'
+import Realistic from 'react-canvas-confetti/dist/presets/realistic'
 
-export default function ConfettiExample() {
-	return <Confetti width={window.innerWidth} height={window.innerHeight} />
+export default function RealisticConfettiExample() {
+	return <Realistic autorun={{ speed: 0.3 }} />
 }

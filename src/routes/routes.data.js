@@ -1,3 +1,5 @@
+import Test from '@/components/test-component/Test.jsx'
+
 import Home from '../components/screens/home/Home'
 
 export const routes = [
@@ -5,6 +7,11 @@ export const routes = [
 		path: '/',
 		component: Home,
 		auth: false
+	},
+	{
+		path: '/test',
+		component: Test,
+		auth: true
 	}
 
 	// {
