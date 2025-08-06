@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Test from '@/components/test-component/Test.jsx'
 
 import Layout from '../components/layout/Layout'
+// Раскомментируй!
 import Home from '../components/screens/home/Home'
 import NotFound from '../components/screens/not-found/NotFound'
 
@@ -10,11 +11,11 @@ const Router = () => {
 	return (
 		<BrowserRouter>
 			<Routes>
-				<Route path='/' element={<Layout />}>
-					<Route index element={<Home />} />
+				<Route element={<Layout />}>
+					<Route path='/' element={<Home />} />
+					<Route path='/test' element={<Test />} />
+					<Route path='*' element={<NotFound />} />
 				</Route>
-				<Route path='/test' element={<Test />} />
-				<Route path='*' element={<NotFound />} />
 			</Routes>
 		</BrowserRouter>
 	)

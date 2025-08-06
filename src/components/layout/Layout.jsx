@@ -2,7 +2,6 @@ import cn from 'clsx'
 import React, { useEffect, useState } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 
-// ← Добавлено
 import Header from '@/components/layout/header/Header.jsx'
 
 import styles from './layout.module.scss'
@@ -27,7 +26,10 @@ const Layout = () => {
 	}
 
 	const closeModals = () => {
+		// Запускаем анимацию закрытия
 		setIsClosing(true)
+
+		// Убираем модалку из DOM через 200ms (соответствует длительности анимации)
 		setTimeout(() => {
 			setCurrentModal(null)
 			setIsClosing(false)
@@ -49,6 +51,7 @@ const Layout = () => {
 		setIsClosing(false)
 	}
 
+	// Блокируем скролл страницы при открытой модалке
 	useEffect(() => {
 		if (currentModal) {
 			document.body.style.overflow = 'hidden'
@@ -61,32 +64,37 @@ const Layout = () => {
 		}
 	}, [currentModal])
 
+	// Можно задать пути, где хедер скрывать (если нужно)
 	const hideHeaderPages = []
 	const shouldShowHeader = !hideHeaderPages.includes(location.pathname)
+
 	const isModalOpen = currentModal !== null
 
 	return (
 		<div>
+			{/* Header всегда отображается, кроме страниц скрытия */}
 			{shouldShowHeader && (
 				<Header openRegistration={openRegistration} openAuth={openAuth} />
 			)}
 
-			{!isModalOpen && (
-				<main
-					className={cn({ [styles.hiddenContent]: isModalOpen })}
-					style={{
-						visibility: isModalOpen ? 'hidden' : 'visible'
-					}}
-				>
-					<Outlet context={{ openRegistration, openAuth }} />
-				</main>
-			)}
+			{/* Основной контент (Outlet) всегда в DOM, но становится неактивным и затемнённым при открытии модалки */}
+			<main
+				className={cn(styles.mainContent, {
+					[styles.inactiveContent]: isModalOpen
+				})}
+				aria-hidden={isModalOpen}
+			>
+				<Outlet context={{ openRegistration, openAuth }} />
+			</main>
 
+			{/* Модалки поверх, с анимацией появления и закрытия */}
 			{currentModal === 'registration' && (
 				<div
 					className={cn(styles.fullscreenModal, {
 						[styles.closing]: isClosing
 					})}
+					role='dialog'
+					aria-modal='true'
 				>
 					<Registration onClose={closeModals} onSwitchToAuth={switchToAuth} />
 				</div>
@@ -97,6 +105,8 @@ const Layout = () => {
 					className={cn(styles.fullscreenModal, {
 						[styles.closing]: isClosing
 					})}
+					role='dialog'
+					aria-modal='true'
 				>
 					<Auth
 						onClose={closeModals}
@@ -111,6 +121,8 @@ const Layout = () => {
 					className={cn(styles.fullscreenModal, {
 						[styles.closing]: isClosing
 					})}
+					role='dialog'
+					aria-modal='true'
 				>
 					<ForgotPassword onClose={closeModals} onGoBack={switchToAuth} />
 				</div>

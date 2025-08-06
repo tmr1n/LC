@@ -1,6 +1,6 @@
-//import Realistic from 'react-canvas-confetti/dist/presets/realistic'
 import { useOutletContext } from 'react-router-dom'
 
+//import Layout from '@/components/layout/Layout.jsx'
 import styles from './home.module.scss'
 
 const Home = () => {

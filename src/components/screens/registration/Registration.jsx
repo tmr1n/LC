@@ -45,6 +45,10 @@ const Registration = ({ onClose, onSwitchToAuth }) => {
 		debouncedValidateField(field, value, newFormData)
 	}
 
+	const handleGoogleLogin = () => {
+		window.location.href = 'https://YOUR_BACKEND_DOMAIN/auth/google'
+	}
+
 	const registrationMutation = useMutation({
 		mutationFn: register,
 		onSuccess: () => {
@@ -131,7 +135,7 @@ const Registration = ({ onClose, onSwitchToAuth }) => {
 								<div className={styles.gap}>
 									<button
 										className={cn(styles.buttonGray, styles.mt15)}
-										onClick={() => {}}
+										onClick={handleGoogleLogin}
 									>
 										<FcGoogle
 											className={styles.iconGoogle}

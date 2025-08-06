@@ -32,6 +32,9 @@ const Auth = ({
 		useValidation()
 
 	const [isLoading, setIsLoading] = useState(false)
+	const handleGoogleLogin = () => {
+		window.location.href = 'https://YOUR_BACKEND_DOMAIN/auth/google'
+	}
 
 	const handleInputChange = (field, value) => {
 		setFormData(prev => ({
@@ -152,7 +155,7 @@ const Auth = ({
 						<div className={styles.gap}>
 							<button
 								className={cn(styles.buttonGray, styles.mt15)}
-								onClick={() => {}}
+								onClick={handleGoogleLogin}
 							>
 								<FcGoogle
 									className={styles.iconGoogle}

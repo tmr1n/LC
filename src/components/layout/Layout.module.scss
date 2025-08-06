@@ -1,3 +1,4 @@
+/* ========== Глобальные базовые стили ========== */
 * {
 	margin: 0;
 	padding: 0;
@@ -11,6 +12,7 @@ body {
 	overflow-x: hidden;
 }
 
+/* ========== Стили для обычного модального оверлея ========== */
 .modal-overlay {
 	position: fixed;
 	top: 0;
@@ -30,11 +32,12 @@ body {
 	border-radius: 12px;
 	max-width: 90vw;
 	max-height: 90vh;
-	overflow-y: auto;
+	//overflow-y: auto;
 	position: relative;
 	animation: slideDown 0.3s ease;
 }
 
+/* Анимации для обычных модалок */
 @keyframes fadeIn {
 	from {
 		opacity: 0;
@@ -55,6 +58,8 @@ body {
 	}
 }
 
+/* ========== Стили для fullscreen модалок (= твои основные модалки) ========== */
+
 .fullscreenModal {
 	position: fixed;
 	top: 0;
@@ -63,15 +68,33 @@ body {
 	height: 100vh;
 	background: white;
 	z-index: 1000;
-	overflow-y: auto;
+	//overflow-y: auto;
 
-	animation: gentleAppear 0.25s ease-out; // ✅ Только модалки анимируются
+	/* Анимация плавного появления */
+	animation: gentleAppear 0.25s ease-out forwards;
+}
+
+/* Анимация закрытия: сдвиг вверх и исчезновение */
+@keyframes gentleFadeUp {
+	0% {
+		transform: translateY(0);
+		opacity: 1;
+	}
+	100% {
+		transform: translateY(-30px);
+		opacity: 0;
+	}
 }
 
 .fullscreenModal.closing {
-	animation: gentleFadeOut 0.2s ease-out;
+	/* Запускаем анимацию сдвига вверх и затухания */
+	animation: gentleFadeUp 0.2s ease forwards;
+
+	/* Отключаем клики во время анимации закрытия */
+	pointer-events: none;
 }
 
+/* Анимация появления (уже была) */
 @keyframes gentleAppear {
 	0% {
 		transform: translateY(-30px);
@@ -83,16 +106,53 @@ body {
 	}
 }
 
-@keyframes gentleFadeOut {
-	0% {
-		opacity: 1;
-	}
-	100% {
-		opacity: 0;
-	}
+/* ========== SCSS стили для layout, управляем видимостью основного контента ========== */
+
+//.hiddenContent {
+//	display: none;
+//}
+
+.mainContent {
+	transition: opacity 0.3s ease;
 }
 
-// layout.module.scss
-.hiddenContent {
-	display: none;
+.inactiveContent {
+	pointer-events: none; /* Отключаем клики по основному контенту */
+	user-select: none; /* Запрет выделения */
+
+	/* Если хочешь, можешь включить затемнение и размытие */
+	/*
+	opacity: 0.5;
+	filter: blur(1.5px);
+	transition: opacity 0.3s ease, filter 0.3s ease;
+	*/
+}
+
+/* Если нужно, чтобы курсор менялся на "неактивный" */
+.inactiveContent * {
+	cursor: default !important;
+}
+
+/* Для fullscreen модалок сверху */
+.fullscreenModal {
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+
+	/* фоновый цвет можно раскомментировать если нужен */
+	/* background-color: rgba(0, 0, 0, 0.5); */
+
+	z-index: 1000; /* Поверх всего */
+
+	/* остальные свойства при желании */
+	/* opacity: 1;
+	transition: opacity 0.2s ease; */
+}
+
+/* Можно оставить класс closing пустым, анимация идет через keyframes */
+.closing {
+	/* opacity: 0;
+	pointer-events: none;
+	transition: opacity 0.2s ease; */
 }
