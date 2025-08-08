@@ -11,21 +11,34 @@ import Auth from '../screens/auth/Auth'
 import ForgotPassword from '../screens/forgot-password/ForgotPassword'
 import Registration from '../screens/registration/Registration'
 
+// Конфигурируем один раз
+TopBarProgress.config({
+	barColors: { 0: '#007BFF', '1.0': '#007BFF' },
+	barThickness: 3,
+	shadowBlur: 0
+})
+
 const Layout = () => {
 	const location = useLocation()
 
-	const [currentModal, setCurrentModal] = useState(null)
+	// Модалки
+	const [currentModal, setCurrentModal] = useState(null) // 'registration' | 'auth' | 'forgotPassword' | null
 	const [isClosing, setIsClosing] = useState(false)
+
+	// Топбар (показываем на смене пути)
 	const [showTopBar, setShowTopBar] = useState(false)
 	const hideTimerRef = useRef(null)
+
 	useEffect(() => {
-		// при каждом изменении pathname — показать прогресс
 		setShowTopBar(true)
-		// уберем через 300–500 мс (или дольше, если хочешь)
 		clearTimeout(hideTimerRef.current)
+		// Минимальная видимость, чтобы не мигал
 		hideTimerRef.current = setTimeout(() => setShowTopBar(false), 400)
 		return () => clearTimeout(hideTimerRef.current)
 	}, [location.pathname])
+
+	// Прячем Header на явном /404
+	const shouldShowHeader = !location.pathname.startsWith('/404')
 
 	const openRegistration = () => {
 		setCurrentModal('registration')
@@ -38,14 +51,11 @@ const Layout = () => {
 	}
 
 	const closeModals = () => {
-		// Запускаем анимацию закрытия
 		setIsClosing(true)
-
-		// Убираем модалку из DOM через 200ms (соответствует длительности анимации)
 		setTimeout(() => {
 			setCurrentModal(null)
 			setIsClosing(false)
-		}, 200)
+		}, 200) // длительность анимации закрытия
 	}
 
 	const switchToAuth = () => {
@@ -65,32 +75,22 @@ const Layout = () => {
 
 	// Блокируем скролл страницы при открытой модалке
 	useEffect(() => {
-		if (currentModal) {
-			document.body.style.overflow = 'hidden'
-		} else {
-			document.body.style.overflow = 'unset'
-		}
-
+		if (currentModal) document.body.style.overflow = 'hidden'
+		else document.body.style.overflow = 'unset'
 		return () => {
 			document.body.style.overflow = 'unset'
 		}
 	}, [currentModal])
 
-	// Можно задать пути, где хедер скрывать (если нужно)
-	const hideHeaderPages = []
-	const shouldShowHeader = !hideHeaderPages.includes(location.pathname)
-
 	const isModalOpen = currentModal !== null
 
 	return (
 		<div>
-			{/* Header всегда отображается, кроме страниц скрытия */}
 			{showTopBar && <TopBarProgress />}
 			{shouldShowHeader && (
 				<Header openRegistration={openRegistration} openAuth={openAuth} />
 			)}
 
-			{/* Основной контент (Outlet) всегда в DOM, но становится неактивным и затемнённым при открытии модалки */}
 			<main
 				className={cn(styles.mainContent, {
 					[styles.inactiveContent]: isModalOpen
@@ -100,7 +100,6 @@ const Layout = () => {
 				<Outlet context={{ openRegistration, openAuth }} />
 			</main>
 
-			{/* Модалки поверх, с анимацией появления и закрытия */}
 			{currentModal === 'registration' && (
 				<div
 					className={cn(styles.fullscreenModal, {

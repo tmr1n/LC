@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 
 import Test from '@/components/test-component/Test.jsx'
 
@@ -14,8 +14,10 @@ const Router = () => {
 				<Route element={<Layout />}>
 					<Route path='/' element={<Home />} />
 					<Route path='/test' element={<Test />} />
+					<Route path='*' element={<Navigate to='/404' replace />} />
+
+					<Route path='/404' element={<NotFound />} />
 				</Route>
-				<Route path='*' element={<NotFound />} />
 			</Routes>
 		</BrowserRouter>
 	)

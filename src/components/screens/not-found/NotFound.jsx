@@ -1,3 +1,4 @@
+import cn from 'clsx'
 import { useNavigate } from 'react-router-dom'
 
 import Button from '@/components/button/Button'
@@ -8,15 +9,15 @@ const NotFound = () => {
 	const navigate = useNavigate()
 	return (
 		<>
-			<div className={styles.notFound}>
-				<h1 className={styles.nf}>
-					ПЭЙДЖ <br /> НОТ <br /> ФАУНД
-				</h1>
-				<p className={styles.ptext}>
-					Ошибка 404. Такая страница не существует
-					<br /> либо была удалена
-				</p>
-				<Button onClick={() => navigate('/')}>На главную</Button>
+			<div className={cn(styles.notFound, styles.pageBg)}>
+				<div className={styles.sec1}>
+					<h1 className={styles.nf}>ПЭЙДЖ НОТ ФАУНД</h1>
+					<p className={styles.ptext}>
+						Ошибка 404. Такая страница не существует
+						<br /> либо была удалена
+					</p>
+					<Button onClick={() => navigate('/')}>На главную</Button>
+				</div>
 			</div>
 		</>
 	)

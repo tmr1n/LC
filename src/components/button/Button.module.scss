@@ -5,15 +5,17 @@
 	background-color: $blue;
 	color: $bg-white;
 	border: none;
-	padding: 0.375rem 0.875rem;
-	height: 50px;
-	display: block;
+	padding: 24px;
+
+	display: flex;
+	justify-content: center;
 	text-align: center;
 	font-size: 16px;
 	font-weight: 600;
 	cursor: pointer;
 	transition: background-color 0.3s ease;
 	border-radius: 50px;
+	width: 50%;
 
 	&:hover {
 		background: #7342bc;
