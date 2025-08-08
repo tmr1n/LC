@@ -1,6 +1,7 @@
 import cn from 'clsx'
 import React, { useEffect, useState } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
+import TopBarProgress from 'react-topbar-progress-indicator'
 
 import Header from '@/components/layout/header/Header.jsx'
 
@@ -12,8 +13,15 @@ import Registration from '../screens/registration/Registration'
 
 const Layout = () => {
 	const location = useLocation()
+
 	const [currentModal, setCurrentModal] = useState(null)
 	const [isClosing, setIsClosing] = useState(false)
+
+	TopBarProgress.config({
+		barColors: { 0: '#007BFF', '1.0': '#007BFF' }, // синий цвет
+		barThickness: 3,
+		shadowBlur: 0
+	})
 
 	const openRegistration = () => {
 		setCurrentModal('registration')
@@ -73,6 +81,7 @@ const Layout = () => {
 	return (
 		<div>
 			{/* Header всегда отображается, кроме страниц скрытия */}
+			{location.state === 'loading' && <TopBarProgress />}
 			{shouldShowHeader && (
 				<Header openRegistration={openRegistration} openAuth={openAuth} />
 			)}

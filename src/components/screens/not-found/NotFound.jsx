@@ -1,8 +1,11 @@
+import { useNavigate } from 'react-router-dom'
+
 import Button from '@/components/button/Button'
 
 import styles from './NotFound.module.scss'
 
 const NotFound = () => {
+	const navigate = useNavigate()
 	return (
 		<>
 			<div className={styles.notFound}>
@@ -13,7 +16,7 @@ const NotFound = () => {
 					Ошибка 404. Такая страница не существует
 					<br /> либо была удалена
 				</p>
-				<Button>На главную</Button>
+				<Button onClick={() => navigate('/')}>На главную</Button>
 			</div>
 		</>
 	)
