@@ -21,3 +21,24 @@
 		background: #7342bc;
 	}
 }
+
+.buttonYellow {
+	background-color: $yellow;
+	color: $black;
+	border: none;
+	padding: 24px;
+
+	display: flex;
+	justify-content: center;
+	text-align: center;
+	font-size: 16px;
+	font-weight: 600;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+	border-radius: 50px;
+	width: 50%;
+
+	&:hover {
+		background: #7342bc;
+	}
+}
