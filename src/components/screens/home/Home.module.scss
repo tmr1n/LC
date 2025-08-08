@@ -2,7 +2,7 @@
 @import '@/assets/styles/animation';
 
 .home {
-	background-color: $bg-semi-gray;
+	background-color: white;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -48,148 +48,19 @@
 	}
 }
 
-// Твои существующие стили остаются как есть
-// Добавляем новые:
-
+// Обертка для всех секций (если нужна)
 .homeWrapper {
-	// Обертка для всех секций
-}
-
-.container {
-	max-width: 1200px;
-	margin: 0 auto;
-	padding: 0 20px;
-}
-
-/* === Секция возможностей === */
-.featuresSection {
-	padding: 80px 0;
-	background: rgba(255, 255, 255, 0.03);
-}
-
-.sectionTitle {
-	text-align: center;
-	font-size: clamp(28px, 4vw, 40px);
-	font-weight: 700;
-	margin-bottom: 60px;
-	color: inherit;
-}
-
-.featuresGrid {
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-	gap: 30px;
-}
-
-.featureCard {
-	background: rgba(255, 255, 255, 0.05);
-	border-radius: 16px;
-	padding: 32px 24px;
-	text-align: center;
-	transition:
-		transform 0.3s ease,
-		background 0.3s ease;
-	border: 1px solid rgba(255, 255, 255, 0.1);
-
-	&:hover {
-		transform: translateY(-8px);
-		background: rgba(255, 255, 255, 0.08);
-	}
-}
-
-.featureIcon {
-	font-size: 48px;
-	margin-bottom: 20px;
-	display: block;
-}
-
-.featureTitle {
-	font-size: 20px;
-	font-weight: 600;
-	margin-bottom: 12px;
-	color: inherit;
-}
-
-.featureDesc {
-	font-size: 16px;
-	opacity: 0.8;
-	line-height: 1.5;
-}
-
-/* === Секция статистики === */
-.statsSection {
-	padding: 80px 0;
-}
-
-.statsGrid {
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-	gap: 40px;
-}
-
-.statItem {
-	text-align: center;
-}
-
-.statNumber {
-	font-size: clamp(32px, 5vw, 48px);
-	font-weight: 900;
-	color: $blue;
-	margin-bottom: 8px;
-	display: block;
-}
-
-.statLabel {
-	font-size: 18px;
-	opacity: 0.8;
-	font-weight: 500;
-}
-
-/* === Секция "Как это работает" === */
-.howItWorksSection {
-	padding: 80px 0;
-	background: rgba(255, 255, 255, 0.03);
-}
-
-.stepsGrid {
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-	gap: 32px;
-}
-
-.stepCard {
-	text-align: center;
-	padding: 24px;
-}
-
-.stepNumber {
-	width: 60px;
-	height: 60px;
-	border-radius: 50%;
-	background: $blue;
-	color: white;
 	display: flex;
+	flex-direction: column;
 	align-items: center;
-	justify-content: center;
-	font-size: 24px;
-	font-weight: 700;
-	margin: 0 auto 20px;
+	gap: 50px;
+	background-color: $bg-white;
+	padding: 40px 20px;
+	font-family: $default-font;
+	min-height: 100vh;
 }
 
-.stepTitle {
-	font-size: 20px;
-	font-weight: 600;
-	margin-bottom: 12px;
-	color: inherit;
-}
-
-.stepDesc {
-	font-size: 16px;
-	opacity: 0.8;
-	line-height: 1.5;
-}
-
-/* === SKELETON СТИЛИ === */
+/* Skeleton общие стили */
 .skeleton {
 	background: linear-gradient(
 		90deg,
@@ -202,6 +73,7 @@
 	border-radius: 8px;
 }
 
+/* Анимация shimmer */
 @keyframes shimmer {
 	0% {
 		background-position: -200% 0;
@@ -211,126 +83,30 @@
 	}
 }
 
-/* Hero skeleton */
+/* Размеры скелетонов под твои элементы */
+
 .skeletonTitle {
 	height: 60px;
-	margin-bottom: 25px;
+	width: 320px;
+	margin-bottom: 24px;
 	border-radius: 12px;
-	max-width: 600px;
 	margin-left: auto;
 	margin-right: auto;
 }
 
 .skeletonMiniTitle {
-	height: 50px;
-	margin-bottom: 25px;
+	height: 40px;
+	width: 280px;
+	margin-bottom: 24px;
 	border-radius: 8px;
-	max-width: 500px;
 	margin-left: auto;
 	margin-right: auto;
 }
 
 .skeletonButton {
 	height: 50px;
-	width: 250px;
-	margin: 0 auto;
+	width: 220px;
 	border-radius: 25px;
-}
-
-/* Features skeleton */
-.skeletonSectionTitle {
-	height: 48px;
-	width: 300px;
-	margin: 0 auto 60px;
-	border-radius: 12px;
-}
-
-.featureCardSkeleton {
-	background: rgba(255, 255, 255, 0.05);
-	border-radius: 16px;
-	padding: 32px 24px;
-	text-align: center;
-}
-
-.skeletonCircle {
-	width: 48px;
-	height: 48px;
-	border-radius: 50%;
-	margin: 0 auto 20px;
-}
-
-.skeletonCardTitle {
-	height: 24px;
-	margin-bottom: 12px;
-	border-radius: 6px;
-}
-
-.skeletonCardDesc {
-	height: 20px;
-	margin-bottom: 8px;
-	border-radius: 4px;
-
-	&.short {
-		width: 75%;
-		margin-left: auto;
-		margin-right: auto;
-	}
-}
-
-/* Stats skeleton */
-.statItemSkeleton {
-	text-align: center;
-}
-
-.skeletonStatNumber {
-	height: 56px;
-	width: 120px;
-	margin: 0 auto 8px;
-	border-radius: 8px;
-}
-
-.skeletonStatLabel {
-	height: 24px;
-	width: 140px;
-	margin: 0 auto;
-	border-radius: 4px;
-}
-
-/* Steps skeleton */
-.stepCardSkeleton {
-	text-align: center;
-	padding: 24px;
-}
-
-.skeletonStepNumber {
-	width: 60px;
-	height: 60px;
-	border-radius: 50%;
-	margin: 0 auto 20px;
-}
-
-.skeletonStepTitle {
-	height: 24px;
-	width: 160px;
-	margin: 0 auto 12px;
-	border-radius: 6px;
-}
-
-.skeletonStepDesc {
-	height: 20px;
-	width: 200px;
-	margin: 0 auto;
-	border-radius: 4px;
-}
-
-/* Адаптивность */
-@media (max-width: 768px) {
-	.featuresGrid,
-	.stepsGrid {
-		grid-template-columns: 1fr;
-	}
-
-	.statsGrid {
-		grid-template-columns: repeat(2, 1fr);
-	}
+	margin-left: auto;
+	margin-right: auto;
 }
