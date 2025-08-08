@@ -1,10 +1,20 @@
-import Layout from '../../layout/Layout'
+import Button from '@/components/button/Button'
+
+import styles from './NotFound.module.scss'
 
 const NotFound = () => {
 	return (
 		<>
-			<Layout heading='Page not found' />
-			<div className='wrapper-inner-page'>404 page not found</div>
+			<div className={styles.notFound}>
+				<h1 className={styles.nf}>
+					ПЭЙДЖ <br /> НОТ <br /> ФАУНД
+				</h1>
+				<p className={styles.ptext}>
+					Ошибка 404. Такая страница не существует
+					<br /> либо была удалена
+				</p>
+				<Button>На главную</Button>
+			</div>
 		</>
 	)
 }

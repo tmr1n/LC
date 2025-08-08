@@ -1,0 +1,35 @@
+@import '@/assets/styles/variables';
+@import '@/assets/styles/animation';
+
+.notFound {
+	background-color: $bg-semi-gray;
+	display: flex;
+	flex-direction: column;
+	align-items: start;
+
+	padding: 40px;
+	text-align: center;
+	font-family: $default-font;
+
+	gap: 25px;
+}
+
+.nf {
+	display: flex;
+	font-size: 70px;
+	color: $black;
+	text-align: start;
+	font-family: $default-font;
+	font-optical-sizing: auto;
+	font-weight: 900;
+	font-style: normal;
+}
+
+.ptext {
+	display: flex;
+	text-align: start;
+	font-size: 20px;
+	color: $black;
+
+	font-family: $default-font;
+}

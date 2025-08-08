@@ -14,8 +14,8 @@ const Router = () => {
 				<Route element={<Layout />}>
 					<Route path='/' element={<Home />} />
 					<Route path='/test' element={<Test />} />
-					<Route path='*' element={<NotFound />} />
 				</Route>
+				<Route path='*' element={<NotFound />} />
 			</Routes>
 		</BrowserRouter>
 	)
