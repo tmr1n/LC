@@ -1,5 +1,5 @@
 import cn from 'clsx'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import TopBarProgress from 'react-topbar-progress-indicator'
 
@@ -16,12 +16,16 @@ const Layout = () => {
 
 	const [currentModal, setCurrentModal] = useState(null)
 	const [isClosing, setIsClosing] = useState(false)
-
-	TopBarProgress.config({
-		barColors: { 0: '#007BFF', '1.0': '#007BFF' }, // синий цвет
-		barThickness: 3,
-		shadowBlur: 0
-	})
+	const [showTopBar, setShowTopBar] = useState(false)
+	const hideTimerRef = useRef(null)
+	useEffect(() => {
+		// при каждом изменении pathname — показать прогресс
+		setShowTopBar(true)
+		// уберем через 300–500 мс (или дольше, если хочешь)
+		clearTimeout(hideTimerRef.current)
+		hideTimerRef.current = setTimeout(() => setShowTopBar(false), 400)
+		return () => clearTimeout(hideTimerRef.current)
+	}, [location.pathname])
 
 	const openRegistration = () => {
 		setCurrentModal('registration')
@@ -81,7 +85,7 @@ const Layout = () => {
 	return (
 		<div>
 			{/* Header всегда отображается, кроме страниц скрытия */}
-			{location.state === 'loading' && <TopBarProgress />}
+			{showTopBar && <TopBarProgress />}
 			{shouldShowHeader && (
 				<Header openRegistration={openRegistration} openAuth={openAuth} />
 			)}
