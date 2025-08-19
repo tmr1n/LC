@@ -41,12 +41,21 @@
 .logoMobile {
 	display: none;
 }
+.hamburgerMenu {
+	display: none;
+}
 
 @media (max-width: 768px) {
 	.header {
 		flex-direction: row;
 		//align-items: flex-start;
 		padding: 10px;
+	}
+
+	.hamburgerMenu {
+		display: block;
+		margin-right: 10px; // отступ справа от иконки
+		cursor: pointer;
 	}
 
 	.logo {

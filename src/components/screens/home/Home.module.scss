@@ -110,3 +110,17 @@
 	margin-left: auto;
 	margin-right: auto;
 }
+
+@media (max-width: 768px) {
+	.title {
+		font-size: 2.75rem; // уменьшаем размер на мобильных
+		padding: 0 10px; // добавляем отступы, чтобы текст не прилипал к краям
+		max-width: 400px;
+	}
+
+	.miniTitle {
+		font-size: 1rem;
+		padding: 0 10px;
+		margin-top: 0;
+	}
+}

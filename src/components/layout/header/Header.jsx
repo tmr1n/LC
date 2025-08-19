@@ -1,3 +1,5 @@
+import { RxHamburgerMenu } from 'react-icons/rx'
+
 import styles from './header.module.scss'
 
 import projectLogoMobile from '../../../assets/Logo-adaptive.svg'
@@ -7,6 +9,7 @@ import projectLogo from '../../../assets/Logo.svg'
 const Header = ({ openAuth }) => {
 	return (
 		<header className={styles.header}>
+			<RxHamburgerMenu className={styles.hamburgerMenu} fontSize={25} />
 			<a href='.' target='_blank'>
 				<img src={projectLogo} className={styles.logoDesktop} alt='Logo' />
 				<img
