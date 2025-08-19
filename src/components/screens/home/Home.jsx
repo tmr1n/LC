@@ -19,6 +19,7 @@ const Home = () => {
 		<section className={styles.home}>
 			{loading ? (
 				<>
+					{/*TODO сделать адаптив skeletonLoader*/}
 					<Skeleton height={60} width={320} style={{ marginBottom: 24 }} />
 					<Skeleton height={40} width={280} style={{ marginBottom: 24 }} />
 					<Skeleton height={50} width={220} borderRadius={25} />

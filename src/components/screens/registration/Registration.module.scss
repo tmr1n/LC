@@ -68,6 +68,22 @@
 	}
 }
 
+@media (max-width: 1024px) {
+	.d1 {
+		display: none;
+	}
+	.d2 {
+		margin: 0 auto; /* перекроет все отступы, включая margin-left */
+		//width: 100%;
+		//max-width: 75%;
+		width: 100%;
+	}
+	.container {
+		width: 75%;
+		max-width: 75% !important;
+	}
+}
+
 .logo {
 	position: absolute;
 	bottom: 40px;
@@ -104,7 +120,7 @@
 	gap: 20px;
 	width: 100%;
 	max-width: 600px;
-	padding: 60px 0;
+	padding: 60px 40px;
 	margin: 0 auto;
 }
 
