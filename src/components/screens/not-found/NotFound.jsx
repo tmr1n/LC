@@ -14,8 +14,7 @@ const NotFound = () => {
 				<div className={styles.sec1}>
 					<h1 className={styles.nf}>ПЭЙДЖ НОТ ФАУНД</h1>
 					<p className={styles.ptext}>
-						Ошибка 404. Такая страница не существует
-						<br /> либо была удалена
+						Ошибка 404. Такая страница не существует либо была удалена
 					</p>
 					<Button
 						className={styles1.buttonYellow}

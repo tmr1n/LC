@@ -64,32 +64,12 @@
 	overflow: hidden;
 }
 
-//.pageBg::after {
-//	content: '';
-//	position: absolute;
-//	left: 0;
-//	right: 0;
-//	bottom: 0;
-//	height: 160px;
-//	background:
-//		radial-gradient(120% 80px at 20% 0, #bda7ff 40%, transparent 41%),
-//		radial-gradient(130% 90px at 45% 10px, #a98fff 40%, transparent 41%),
-//		radial-gradient(120% 80px at 70% 0, #bda7ff 40%, transparent 41%),
-//		radial-gradient(120% 85px at 95% 10px, #a98fff 40%, transparent 41%),
-//		linear-gradient(0deg, #4b1eaa 0, #4b1eaa 100%);
-//	background-repeat: no-repeat;
-//	background-size:
-//		60% 80px,
-//		60% 90px,
-//		60% 80px,
-//		60% 85px,
-//		100% 100%;
-//	background-position:
-//		0 80px,
-//		20% 55px,
-//		55% 80px,
-//		80% 55px,
-//		0 0;
-//	opacity: 0.95;
-//	pointer-events: none;
-//}
+@media (max-width: 768px) {
+	.nf {
+		font-size: 60px;
+	}
+
+	.ptext {
+		font-size: 16px;
+	}
+}
