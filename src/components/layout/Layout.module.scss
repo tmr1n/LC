@@ -156,3 +156,36 @@ body {
 	pointer-events: none;
 	transition: opacity 0.2s ease; */
 }
+
+/* ==== МОБИЛЬНЫЕ СТИЛИ ==== */
+@media (max-width: 768px) {
+	.fullscreenModal {
+		animation: slideUpAppear 0.4s ease-out forwards;
+	}
+
+	.fullscreenModal.closing {
+		animation: slideDownDisappear 0.4s ease-in forwards;
+	}
+
+	@keyframes slideUpAppear {
+		from {
+			transform: translateY(100%);
+			opacity: 0;
+		}
+		to {
+			transform: translateY(0);
+			opacity: 1;
+		}
+	}
+
+	@keyframes slideDownDisappear {
+		from {
+			transform: translateY(0);
+			opacity: 1;
+		}
+		to {
+			transform: translateY(100%);
+			opacity: 0;
+		}
+	}
+}
