@@ -86,29 +86,25 @@
 /* Размеры скелетонов под твои элементы */
 
 .skeletonTitle {
-	height: 60px;
-	width: 320px;
-	margin-bottom: 24px;
-	border-radius: 12px;
-	margin-left: auto;
-	margin-right: auto;
+	height: 2.75rem; // как у заголовка .title
+	width: 80%;
+	max-width: 500px;
+	margin: 0 auto 24px;
+	border-radius: 8px;
 }
 
 .skeletonMiniTitle {
-	height: 40px;
-	width: 280px;
-	margin-bottom: 24px;
-	border-radius: 8px;
-	margin-left: auto;
-	margin-right: auto;
+	height: 1.25rem; // как у .miniTitle (font-size)
+	width: 70%;
+	margin: 0 auto 24px;
+	border-radius: 6px;
 }
 
 .skeletonButton {
-	height: 50px;
+	height: 50px; // как у кнопки
 	width: 220px;
+	margin: 0 auto;
 	border-radius: 25px;
-	margin-left: auto;
-	margin-right: auto;
 }
 
 @media (max-width: 768px) {

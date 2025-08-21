@@ -19,10 +19,22 @@ const Home = () => {
 		<section className={styles.home}>
 			{loading ? (
 				<>
-					{/*TODO сделать адаптив skeletonLoader*/}
-					<Skeleton height={60} width={320} style={{ marginBottom: 24 }} />
-					<Skeleton height={40} width={280} style={{ marginBottom: 24 }} />
-					<Skeleton height={50} width={220} borderRadius={25} />
+					<Skeleton
+						height='2.75rem'
+						width='80%'
+						containerClassName={styles.skeletonTitle}
+					/>
+					<Skeleton
+						height='1.25rem'
+						width='70%'
+						containerClassName={styles.skeletonMiniTitle}
+					/>
+					<Skeleton
+						height={50}
+						width={220}
+						borderRadius={25}
+						containerClassName={styles.skeletonButton}
+					/>
 				</>
 			) : (
 				<>
