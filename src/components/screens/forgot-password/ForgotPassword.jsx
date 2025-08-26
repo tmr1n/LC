@@ -36,7 +36,7 @@ const ForgotPassword = ({ onClose, onGoBack }) => {
 				<h1>У вас всё получится!</h1>
 				<img
 					className={styles.logo}
-					src='src/assets/Registration-logo.svg'
+					src='../../../assets/images/Registration-logo.svg'
 					alt='Изображение'
 				/>
 			</div>

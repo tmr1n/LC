@@ -117,7 +117,7 @@ const Auth = ({
 					</h1>
 					<img
 						className={styles.logo}
-						src='src/assets/Registration-logo.svg'
+						src='src/assets/images/Registration-logo.svg'
 						alt='Изображение'
 					/>
 				</div>
