@@ -1,4 +1,4 @@
-import Test from '@/components/test-component/Test.jsx'
+import Test from '@/components/screens/authenticated/Authenticated.jsx'
 
 import Home from '../components/screens/home/Home'
 

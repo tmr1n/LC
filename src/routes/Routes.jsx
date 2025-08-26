@@ -1,6 +1,6 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 
-import Test from '@/components/test-component/Test.jsx'
+import Test from '@/components/screens/authenticated/Authenticated.jsx'
 
 import Layout from '../components/layout/Layout'
 // Раскомментируй!
@@ -13,7 +13,7 @@ const Router = () => {
 			<Routes>
 				<Route element={<Layout />}>
 					<Route path='/' element={<Home />} />
-					<Route path='/test' element={<Test />} />
+					<Route path='/authenticated' element={<Test />} />
 					<Route path='*' element={<Navigate to='/404' replace />} />
 
 					<Route path='/404' element={<NotFound />} />
