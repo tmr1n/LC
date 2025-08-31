@@ -503,3 +503,12 @@
 		font-size: 1.3rem;
 	}
 }
+.commonContainer {
+	padding-top: 20px;
+}
+
+.buttonContainer {
+	gap: 20px;
+	display: flex;
+	flex-direction: column;
+}

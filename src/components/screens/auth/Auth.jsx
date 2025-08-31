@@ -279,11 +279,7 @@ const Auth = ({
 							</div>
 						</div>
 
-						<button
-							className={styles.buttonBlue}
-							onClick={handleSubmit}
-							disabled={loginMutation.isLoading}
-						>
+						<button className={styles.buttonBlue} onClick={handleSubmit}>
 							<p>Вход</p>
 						</button>
 						<button

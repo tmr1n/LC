@@ -98,6 +98,7 @@ export const useValidation = () => {
 			}
 
 			setErrors(newErrors)
+			console.log(errors)
 			return newErrors
 		},
 		[errors]

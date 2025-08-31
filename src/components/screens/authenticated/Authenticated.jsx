@@ -11,7 +11,7 @@ const authenticated = async () => {
 	return response.data
 }
 
-const Test = () => {
+const Authenticated = () => {
 	return (
 		<div>
 			<h1>Тест</h1>
@@ -23,4 +23,4 @@ const Test = () => {
 	)
 }
 
-export default Test
+export default Authenticated

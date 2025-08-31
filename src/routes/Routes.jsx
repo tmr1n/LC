@@ -1,11 +1,11 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 
-import Test from '@/components/screens/authenticated/Authenticated.jsx'
-
 import Layout from '../components/layout/Layout'
+import Authenticated from '../components/screens/authenticated/Authenticated'
 // Раскомментируй!
 import Home from '../components/screens/home/Home'
 import NotFound from '../components/screens/not-found/NotFound'
+import ResetPassword from '../components/screens/reset-password/ResetPassword.jsx'
 
 const Router = () => {
 	return (
@@ -13,8 +13,9 @@ const Router = () => {
 			<Routes>
 				<Route element={<Layout />}>
 					<Route path='/' element={<Home />} />
-					<Route path='/authenticated' element={<Test />} />
+					<Route path='/authenticated' element={<Authenticated />} />
 					<Route path='*' element={<Navigate to='/404' replace />} />
+					<Route path='/reset-password' element={<ResetPassword />} />
 
 					<Route path='/404' element={<NotFound />} />
 				</Route>

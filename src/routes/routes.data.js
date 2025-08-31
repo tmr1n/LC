@@ -1,4 +1,5 @@
 import Test from '@/components/screens/authenticated/Authenticated.jsx'
+import ResetPassword from '@/components/screens/reset-password/ResetPassword.jsx'
 
 import Home from '../components/screens/home/Home'
 
@@ -12,17 +13,19 @@ export const routes = [
 		path: '/test',
 		component: Test,
 		auth: true
-	}
+	},
 
-	// {
-	// 	path: '/registration',
-	// 	component: Registration,
-	// 	auth: false
-	// },
+	{
+		path: '/reset-password',
+		component: ResetPassword,
+		auth: false
+	},
+	{
+		auth: false
+	}
 	// {
 	// 	path: '/auth',
 	// 	component: Auth,
 	// 	auth: false
 	// }
-	// Остальные роуты раскомментируете по мере необходимости
 ]

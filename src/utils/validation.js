@@ -98,7 +98,6 @@ export const validateLoginPassword = password => {
 
 	if (!password) {
 		errors.push('Введите пароль')
-		return errors
 	}
 
 	if (password.length < 1) {
