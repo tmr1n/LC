@@ -1,15 +1,58 @@
 import cn from 'clsx'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { useValidation } from '@/hooks/useValidation.js'
 
+// Импорт компонента Timer (проверьте путь)
 import styles from '@/components/screens/reset-password/ResetPassword.module.scss'
+import Timer from '@/components/screens/timer/Timer.jsx'
+
+import { getInfoAboutToken } from '@/services/PasswordReset.service.js'
 
 const ResetPassword = ({ onSubmit }) => {
 	const [formData, setFormData] = useState({
 		password: '',
 		passwordRepeat: ''
 	})
+	const navigate = useNavigate()
+	const [token, setToken] = useState(null)
+	const [seconds, setSeconds] = useState(null)
+
+	useEffect(() => {
+		const params = new URLSearchParams(window.location.search)
+		const tokenFromUrl = params.get('token')
+		setToken(tokenFromUrl)
+
+		if (tokenFromUrl) {
+			// Здесь делаете запрос на бэкенд для проверки токена
+			getInfoAboutToken(tokenFromUrl)
+				.then(response => {
+					setSeconds(response.data.data.count_seconds)
+					// Обработка успешной проверки
+					console.log('Токен валиден', response)
+				})
+				.catch(error => {
+					console.log(error)
+					if (error.response.status === 404) {
+						// Токен недействителен или истек
+						navigate('/404')
+					}
+					if (error.response.status === 410) {
+						// Токен недействителен или истек
+						alert(error.response.data.message)
+					}
+					if (error.response.status === 422) {
+						// Токен недействителен или истек
+						alert(error.response.data.errors.token[0])
+					}
+					// Обработка ошибки (некорректный токен и т.п.)
+					console.error('Неверный токен', error)
+				})
+		} else {
+			navigate('/')
+		}
+	}, [])
 
 	const [showPassword, setShowPassword] = useState(false)
 	const [showPasswordRepeat, setShowPasswordRepeat] = useState(false)
@@ -34,6 +77,7 @@ const ResetPassword = ({ onSubmit }) => {
 
 	return (
 		<div className={styles.container}>
+			{seconds !== null && <Timer initialSeconds={seconds} />}
 			<h1>Сброс пароля</h1>
 
 			<div className={styles.inputGroup}>
