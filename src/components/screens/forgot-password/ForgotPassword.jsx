@@ -7,6 +7,8 @@ import { useValidation } from '@/hooks/useValidation.js'
 // ← импорт clsx
 import styles from '@/components/screens/registration/Registration.module.scss'
 
+import { passwordReset } from '@/services/PasswordReset.service.js'
+
 const ForgotPassword = ({ onClose, onGoBack }) => {
 	const [formData, setFormData] = useState({
 		email: ''
@@ -22,11 +24,20 @@ const ForgotPassword = ({ onClose, onGoBack }) => {
 		debouncedValidateField(field, value)
 	}
 
-	const handleSubmit = () => {
+	const handleSubmit = async () => {
 		const validationErrors = validateForm(formData, 'forgotPassword')
 
 		if (Object.keys(validationErrors).length === 0) {
-			console.log('Отправка ссылки для сброса пароля на:', formData.email)
+			try {
+				// Call the passwordReset API with the email
+				const response = await passwordReset({ email: formData.email })
+				// Optionally handle success, e.g.:
+				console.log('Ссылка для сброса пароля отправлена на:', formData.email)
+				// Show success message or feedback to user
+			} catch (error) {
+				// Handle error here, e.g. set error state or show notification
+				console.error('Ошибка при отправке ссылки:', error)
+			}
 		}
 	}
 

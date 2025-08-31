@@ -149,7 +149,7 @@ export const useValidation = () => {
 				newErrors.passwordRepeat = ['Пароли не совпадают']
 			}
 
-			if (!formData.termsAccepted) {
+			if (!formData.terms_accepted) {
 				newErrors.terms = [
 					'Примите условия предоставления услуг и политику конфиденциальности LangCards, чтобы продолжить.'
 				]

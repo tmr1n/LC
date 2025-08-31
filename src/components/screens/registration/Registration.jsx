@@ -22,8 +22,8 @@ const Registration = ({ onClose, onSwitchToAuth }) => {
 		username: '',
 		password: '',
 		passwordRepeat: '',
-		newsConsent: false,
-		termsAccepted: false
+		mailing_enabled: false,
+		terms_accepted: false
 	})
 	const [status, setStatus] = useState('idle') // 'idle' | 'loading' | 'success'
 
@@ -59,8 +59,8 @@ const Registration = ({ onClose, onSwitchToAuth }) => {
 				username: '',
 				password: '',
 				passwordRepeat: '',
-				newsConsent: false,
-				termsAccepted: false
+				mailing_enabled: false,
+				terms_accepted: false
 			})
 		},
 		onError: error => {
@@ -81,7 +81,9 @@ const Registration = ({ onClose, onSwitchToAuth }) => {
 				email: formData.email,
 				name: formData.username,
 				password: formData.password,
-				password_confirmation: formData.passwordRepeat
+				password_confirmation: formData.passwordRepeat,
+				mailing_enabled: formData.mailing_enabled,
+				terms_accepted: formData.terms_accepted
 			}
 			setStatus('loading')
 			registrationMutation.mutate(dataToSend)
@@ -317,9 +319,9 @@ const Registration = ({ onClose, onSwitchToAuth }) => {
 										<input
 											type='checkbox'
 											className={styles.checkboxInput}
-											checked={formData.newsConsent}
+											checked={formData.mailing_enabled}
 											onChange={e =>
-												handleInputChange('newsConsent', e.target.checked)
+												handleInputChange('mailing_enabled', e.target.checked)
 											}
 										/>
 										<span className={styles.checkboxCustom}></span>
@@ -335,9 +337,9 @@ const Registration = ({ onClose, onSwitchToAuth }) => {
 										<input
 											type='checkbox'
 											className={styles.checkboxInput}
-											checked={formData.termsAccepted}
+											checked={formData.terms_accepted}
 											onChange={e =>
-												handleInputChange('termsAccepted', e.target.checked)
+												handleInputChange('terms_accepted', e.target.checked)
 											}
 											required
 										/>
