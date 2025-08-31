@@ -6,7 +6,8 @@ export const passwordReset = async payload => {
 	return await api.post('/password/sendResetLink', payload)
 }
 
-export const getInfoAboutToken = async token => {
+export const getInfoAboutToken = async payload => {
 	// payload: { email, username, password, ... }
-	return await api.get(`/password/infoAboutToken?token=${token}`)
+	console.log('Payload in service:', payload)
+	return await api.post(`/password/infoAboutToken`, payload)
 }

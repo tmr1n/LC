@@ -26,7 +26,10 @@ const ResetPassword = ({ onSubmit }) => {
 
 		if (tokenFromUrl) {
 			// Здесь делаете запрос на бэкенд для проверки токена
-			getInfoAboutToken(tokenFromUrl)
+			const dataToSend = {
+				token: tokenFromUrl
+			}
+			getInfoAboutToken(dataToSend)
 				.then(response => {
 					setSeconds(response.data.data.count_seconds)
 					// Обработка успешной проверки
