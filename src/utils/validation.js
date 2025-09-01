@@ -60,6 +60,7 @@ export const validatePassword = password => {
 }
 
 export const validateEmailOrUsername = value => {
+	console.log('rabotaem')
 	const errors = []
 
 	if (!value) {
@@ -70,23 +71,10 @@ export const validateEmailOrUsername = value => {
 	const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 	const isEmail = emailRegex.test(value)
 
-	const usernameRegex = /^[A-Za-z][A-Za-z0-9_-]*$/
-	const isValidUsername = usernameRegex.test(value) && value.length >= 3
-
-	if (!isEmail && !isValidUsername) {
-		if (value.includes('@')) {
-			errors.push('Недопустимый адрес эл. почты')
-		} else {
-			if (value.length < 3) {
-				errors.push('Имя пользователя слишком короткое. Минимум 3 символа')
-			} else if (!/^[A-Za-z]/.test(value)) {
-				errors.push('Имя пользователя должно начинаться с буквы')
-			} else if (!/^[A-Za-z0-9_-]+$/.test(value)) {
-				errors.push(
-					'Имя пользователя может содержать только буквы, цифры, подчеркивания и дефисы'
-				)
-			}
-		}
+	if (!isEmail) {
+		console.log('ОТОБРАЖАЕТСЯ')
+		console.log(value)
+		errors.push('Недопустимый адрес эл. почты')
 	}
 
 	return errors

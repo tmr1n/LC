@@ -81,6 +81,7 @@ export const useValidation = () => {
 					} else {
 						delete newErrors.emailOrUsername
 					}
+					console.log(newErrors.emailOrUsername)
 					break
 
 				case 'loginPassword':
@@ -97,8 +98,15 @@ export const useValidation = () => {
 					break
 			}
 
-			setErrors(newErrors)
-			console.log(errors)
+			setErrors(prevErrors => {
+				console.log('В этом месте мы понимаем, что пошло не так')
+				console.log(prevErrors)
+				console.log(newErrors)
+				return newErrors
+			})
+
+			console.log('NewErrors', newErrors)
+			console.log('Errors in state ', errors)
 			return newErrors
 		},
 		[errors]
@@ -156,11 +164,9 @@ export const useValidation = () => {
 				]
 			}
 		} else if (type === 'auth') {
-			const emailUsernameErrors = validateEmailOrUsername(
-				formData.emailOrUsername
-			)
-			if (emailUsernameErrors.length > 0) {
-				newErrors.emailOrUsername = emailUsernameErrors
+			const emailErrors = validateEmail(formData.email)
+			if (emailErrors.length > 0) {
+				newErrors.email = emailErrors
 			}
 
 			const passwordErrors = validateLoginPassword(formData.password)

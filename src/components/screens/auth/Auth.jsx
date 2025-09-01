@@ -42,10 +42,8 @@ const Auth = ({
 	}
 
 	const handleInputChange = (field, value) => {
-		setFormData(prev => ({
-			...prev,
-			[field]: value
-		}))
+		const newFormData = { ...formData, [field]: value }
+		setFormData(newFormData)
 		// При валидации пароль использует ключ 'loginPassword'
 		const fieldType = field === 'password' ? 'loginPassword' : field
 		debouncedValidateField(fieldType, value, formData)
@@ -68,16 +66,15 @@ const Auth = ({
 			clearErrors()
 		},
 		onError: error => {
-			const status = error?.response?.status
-			if (status === 422) {
+			if (error?.response?.status === 422) {
 				// Ошибки валидации (например, неправильный формат email или пустой пароль)
 				if (error.response.data.errors) {
-					setErrors(error.response.data.errors)
+					setErrors({ ...error.response.data.errors })
 				}
-			} else if (status === 404) {
-				// Пользователь не найден — можно показать ошибку в поле emailOrUsername
+			} else if (error?.response?.status === 404) {
+				// Пользователь не найден — можно показать ошибку в поле email
 				const message = error.response.data.message || 'Пользователь не найден'
-				setErrors({ emailOrUsername: [message] })
+				setErrors({ email: [message] })
 			} else {
 				alert(error?.response?.data?.message || 'Ошибка входа')
 			}
@@ -93,9 +90,10 @@ const Auth = ({
 			return
 		}
 		const validationErrors = validateForm(formData, 'auth')
+		console.log(validationErrors)
 		if (Object.keys(validationErrors).length === 0) {
 			loginMutation.mutate({
-				email: formData.emailOrUsername,
+				email: formData.email,
 				password: formData.password
 			})
 		}
@@ -103,13 +101,13 @@ const Auth = ({
 
 	// Определяем label и placeholder для поля ввода
 	const getInputHint = () => {
-		if (!formData.emailOrUsername) {
+		if (!formData.email) {
 			return {
 				label: 'Email или имя пользователя',
 				placeholder: 'Введите адрес эл. почты или имя пользователя'
 			}
 		}
-		if (formData.emailOrUsername.includes('@')) {
+		if (formData.email.includes('@')) {
 			return {
 				label: 'Email',
 				placeholder: 'user@mail.com'
@@ -215,32 +213,28 @@ const Auth = ({
 						{/* Email или Username поле */}
 						<div className={styles.inputGroup}>
 							<label
-								htmlFor='emailOrUsername'
+								htmlFor='email'
 								className={cn(styles.fieldLabel, {
-									[styles.errorLabel]: errors.emailOrUsername
+									[styles.errorLabel]: errors.email
 								})}
 							>
-								{errors.emailOrUsername
-									? errors.emailOrUsername[0]
-									: inputHint.label}
+								{errors.email ? errors.email[0] : inputHint.label}
 							</label>
 							<input
 								type='text'
-								id='emailOrUsername'
+								id='email'
 								className={cn(styles.inputField, {
-									[styles.errorInput]: errors.emailOrUsername
+									[styles.errorInput]: errors.email
 								})}
 								placeholder={inputHint.placeholder}
-								value={formData.emailOrUsername}
-								onChange={e =>
-									handleInputChange('emailOrUsername', e.target.value)
-								}
+								value={formData.email}
+								onChange={e => handleInputChange('email', e.target.value)}
 								autoComplete='username'
 							/>
 							{/* Дополнительные ошибки */}
-							{errors.emailOrUsername && errors.emailOrUsername.length > 1 && (
+							{errors.email && errors.email.length > 1 && (
 								<div className={styles.additionalErrors}>
-									{errors.emailOrUsername.slice(1).map((error, index) => (
+									{errors.email.slice(1).map((error, index) => (
 										<div key={index} className={styles.errorText}>
 											{error}
 										</div>

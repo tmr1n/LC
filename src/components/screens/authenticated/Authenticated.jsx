@@ -4,7 +4,7 @@ import Realistic from 'react-canvas-confetti/dist/presets/realistic'
 import api from '@/api.js'
 
 const authenticated = async () => {
-	// payload: { emailOrUsername, password }
+	// payload: { email, password }
 	const response = await api.get('/authenticated', { withCredentials: true })
 
 	console.log(response)
