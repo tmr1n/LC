@@ -59,10 +59,16 @@ const Registration = ({ onClose, onSwitchToAuth }) => {
 			})
 		},
 		onError: error => {
-			console.log('error')
-			console.log(error)
-			if (error?.response?.data?.errors) {
-				setErrors(error.response.data.errors)
+			if (error?.response?.status === 422) {
+				// Валидационные ошибки — показываем ошибки по полям
+				if (error.response.data.errors) {
+					setErrors(error.response.data.errors)
+				}
+			} else if (error?.response?.status === 409) {
+				// Конфликт — например, email уже зарегистрирован
+				const message = error.response.data.message || 'Конфликт данных'
+				// Присваиваем ошибку email (или username, если нужно)
+				setErrors({ email: [message] })
 			} else {
 				alert(error?.response?.data?.message || 'Ошибка при регистрации')
 			}

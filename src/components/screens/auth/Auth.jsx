@@ -28,8 +28,13 @@ const Auth = ({
 
 	const [showPassword, setShowPassword] = useState(false)
 
-	const { errors, debouncedValidateField, validateForm, clearErrors } =
-		useValidation()
+	const {
+		errors,
+		debouncedValidateField,
+		validateForm,
+		clearErrors,
+		setErrors
+	} = useValidation()
 
 	const [isLoading, setIsLoading] = useState(false)
 	const handleGoogleLogin = () => {
@@ -63,8 +68,19 @@ const Auth = ({
 			clearErrors()
 		},
 		onError: error => {
-			console.log(error)
-			alert(error?.response?.data?.message || 'Ошибка входа')
+			const status = error?.response?.status
+			if (status === 422) {
+				// Ошибки валидации (например, неправильный формат email или пустой пароль)
+				if (error.response.data.errors) {
+					setErrors(error.response.data.errors)
+				}
+			} else if (status === 404) {
+				// Пользователь не найден — можно показать ошибку в поле emailOrUsername
+				const message = error.response.data.message || 'Пользователь не найден'
+				setErrors({ emailOrUsername: [message] })
+			} else {
+				alert(error?.response?.data?.message || 'Ошибка входа')
+			}
 		},
 		// Вызывается в ЛЮБОМ случае — успех или ошибка
 		onSettled: () => {
