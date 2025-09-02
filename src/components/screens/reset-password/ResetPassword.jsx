@@ -20,7 +20,7 @@ import {
 const ResetPassword = () => {
 	const [formData, setFormData] = useState({
 		password: '',
-		password_confirmation: ''
+		passwordRepeat: ''
 	})
 	const navigate = useNavigate()
 	const [token, setToken] = useState(null)
@@ -84,7 +84,7 @@ const ResetPassword = () => {
 			setStatus('success')
 			setFormData({
 				password: '',
-				password_confirmation: '' // корректный ключ формы
+				passwordRepeat: '' // корректный ключ формы
 			})
 		},
 		onSettled: () => {
@@ -171,11 +171,11 @@ const ResetPassword = () => {
 						<label
 							htmlFor='passwordRepeat'
 							className={cn(styles.fieldLabel, {
-								[styles.errorLabel]: errors.passwordRepeat
+								[styles.errorLabel]: errors.password_confirmation
 							})}
 						>
-							{errors.passwordRepeat
-								? errors.passwordRepeat[0]
+							{errors.password_confirmation
+								? errors.password_confirmation[0]
 								: 'Повторите пароль'}
 						</label>
 						<div className={styles.passwordWrapper}>
@@ -183,7 +183,7 @@ const ResetPassword = () => {
 								type={showPasswordRepeat ? 'text' : 'password'}
 								id='passwordRepeat'
 								className={cn(styles.inputField, {
-									[styles.errorInput]: errors.passwordRepeat
+									[styles.errorInput]: errors.password_confirmation
 								})}
 								placeholder='••••••••'
 								value={formData.passwordRepeat}

@@ -53,20 +53,20 @@ export const useValidation = () => {
 
 					// Проверяем совпадение паролей
 					if (formData.passwordRepeat && value !== formData.passwordRepeat) {
-						newErrors.passwordRepeat = ['Пароли не совпадают']
+						newErrors.password_confirmation = ['Пароли не совпадают']
 					} else if (
 						formData.passwordRepeat &&
 						value === formData.passwordRepeat
 					) {
-						delete newErrors.passwordRepeat
+						delete newErrors.password_confirmation
 					}
 					break
 
 				case 'passwordRepeat':
 					if (value && value !== formData.password) {
-						newErrors.passwordRepeat = ['Пароли не совпадают']
+						newErrors.password_confirmation = ['Пароли не совпадают']
 					} else {
-						delete newErrors.passwordRepeat
+						delete newErrors.password_confirmation
 					}
 					break
 
@@ -153,9 +153,9 @@ export const useValidation = () => {
 			}
 
 			if (!formData.passwordRepeat) {
-				newErrors.passwordRepeat = ['Поле обязательно для заполнения']
+				newErrors.password_confirmation = ['Поле обязательно для заполнения']
 			} else if (formData.password !== formData.passwordRepeat) {
-				newErrors.passwordRepeat = ['Пароли не совпадают']
+				newErrors.password_confirmation = ['Пароли не совпадают']
 			}
 
 			if (!formData.terms_accepted) {

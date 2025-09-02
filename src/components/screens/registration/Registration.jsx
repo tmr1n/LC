@@ -243,11 +243,11 @@ const Registration = ({ onClose, onSwitchToAuth }) => {
 										<label
 											htmlFor='passwordRepeat'
 											className={cn(styles.fieldLabel, {
-												[styles.errorLabel]: errors.passwordRepeat
+												[styles.errorLabel]: errors.password_confirmation
 											})}
 										>
-											{errors.passwordRepeat
-												? errors.passwordRepeat[0]
+											{errors.password_confirmation
+												? errors.password_confirmation[0]
 												: 'Повторите пароль'}
 										</label>
 										<div className={styles.passwordWrapper}>
@@ -255,7 +255,7 @@ const Registration = ({ onClose, onSwitchToAuth }) => {
 												type={showPasswordRepeat ? 'text' : 'password'}
 												id='passwordRepeat'
 												className={cn(styles.inputField, {
-													[styles.errorInput]: errors.passwordRepeat
+													[styles.errorInput]: errors.password_confirmation
 												})}
 												placeholder='••••••••'
 												value={formData.passwordRepeat}
