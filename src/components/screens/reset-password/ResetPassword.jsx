@@ -1,5 +1,6 @@
 import cn from 'clsx'
 import React, { useEffect, useState } from 'react'
+import { MdOutlineTipsAndUpdates } from 'react-icons/md'
 import { useNavigate } from 'react-router-dom'
 
 import { useValidation } from '@/hooks/useValidation.js'
@@ -80,8 +81,13 @@ const ResetPassword = ({ onSubmit }) => {
 
 	return (
 		<div className={styles.container}>
-			{seconds !== null && <Timer initialSeconds={seconds} />}
-			<h1>Сброс пароля</h1>
+			<div className={styles.tooltip}>
+				<h1>Сброс пароля</h1>
+				<MdOutlineTipsAndUpdates size={20} color='#586380' />
+				<span className={styles.tooltiptext}>
+					{seconds !== null && <Timer initialSeconds={seconds} />}
+				</span>
+			</div>
 
 			<div className={styles.inputGroup}>
 				<label
@@ -148,6 +154,10 @@ const ResetPassword = ({ onSubmit }) => {
 			<div className={styles.buttonContainer}>
 				<button className={styles.buttonBlue} onClick={handleSubmit}>
 					<p>Сменить пароль</p>
+				</button>
+
+				<button className={styles.buttonGray} onClick={() => navigate('/')}>
+					<p>На главную</p>
 				</button>
 			</div>
 		</div>

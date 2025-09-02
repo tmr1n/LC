@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react'
 import { RxHamburgerMenu } from 'react-icons/rx'
 
 import styles from './header.module.scss'
@@ -7,6 +8,11 @@ import projectLogoMobile from '../../../assets/images/Logo-adaptive.svg'
 import projectLogo from '../../../assets/images/Logo.svg'
 
 const Header = ({ openAuth }) => {
+	const [page, setPage] = useState()
+	useEffect(() => {
+		setPage(window.location.pathname)
+	}, [])
+
 	return (
 		<header className={styles.header}>
 			<RxHamburgerMenu className={styles.hamburgerMenu} fontSize={25} />
@@ -18,9 +24,12 @@ const Header = ({ openAuth }) => {
 					alt='Logo mobile'
 				/>
 			</a>
-			<button className={styles.buttonBlue} onClick={openAuth}>
-				Вход
-			</button>
+
+			{page !== '/reset-password' && (
+				<button className={styles.buttonBlue} onClick={openAuth}>
+					Вход
+				</button>
+			)}
 			{/* User Profile */}
 		</header>
 	)
