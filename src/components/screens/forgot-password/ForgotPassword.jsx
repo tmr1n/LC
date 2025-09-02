@@ -14,6 +14,7 @@ import { passwordReset } from '@/services/PasswordReset.service.js'
 const ForgotPassword = ({ onClose, onGoBack }) => {
 	const [formData, setFormData] = useState({ email: '' })
 	const [status, setStatus] = useState('idle') // 'idle' | 'loading' | 'success'
+	const [sentEmail, setSentEmail] = useState('')
 	const { errors, debouncedValidateField, validateForm, setErrors } =
 		useValidation()
 
@@ -44,7 +45,9 @@ const ForgotPassword = ({ onClose, onGoBack }) => {
 			console.log('success')
 			console.log(this)
 
+			setSentEmail(formData.email) // сохраняем сюда email
 			setStatus('success')
+			setFormData({ email: '' }) // очищаем форму
 
 			setFormData({
 				email: ''
@@ -165,7 +168,7 @@ const ForgotPassword = ({ onClose, onGoBack }) => {
 					<div className={styles.container}>
 						<h1>Проверьте свой почтовый ящик!</h1>
 						<p>Мы отправили сообщение на адрес</p>
-						<p>{maskEmail(formData.email)}</p>
+						<p>{maskEmail(sentEmail)}</p>
 						<p>Если вы не получили сообщение, проверьте свою папку спама.</p>
 						<button className={styles.buttonBlue} onClick={onClose}>
 							<p>Закрыть</p>
