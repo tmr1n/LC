@@ -81,13 +81,15 @@ const ResetPassword = ({ onSubmit }) => {
 
 	return (
 		<div className={styles.container}>
-			<div className={styles.tooltip}>
-				<h1>Сброс пароля</h1>
-				<MdOutlineTipsAndUpdates size={20} color='#586380' />
-				<span className={styles.tooltiptext}>
-					{seconds !== null && <Timer initialSeconds={seconds} />}
+			<h1>
+				Сброс пароля{' '}
+				<span className={styles.tooltipWrapper}>
+					<MdOutlineTipsAndUpdates size={20} color='#586380' />
+					<span className={styles.tooltiptext}>
+						{seconds !== null && <Timer initialSeconds={seconds} />}
+					</span>
 				</span>
-			</div>
+			</h1>
 
 			<div className={styles.inputGroup}>
 				<label
