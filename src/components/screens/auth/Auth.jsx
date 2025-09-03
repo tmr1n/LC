@@ -48,13 +48,16 @@ const Auth = ({
 	}
 
 	const handleLoginOauth = nameProvider => {
-		try {
-			const response = oAuthLogin(nameProvider)
-			window.location.href = response.data.data.url
-		} catch (error) {
-			alert('Ошибка входа через ' + nameProvider)
-			console.error('OAuth login error:', error)
-		}
+		oAuthLogin(nameProvider)
+			.then(response => {
+				window.location.href = response.data.data.url
+			})
+			.catch(error => {
+				alert('Ошибка входа через ' + nameProvider)
+				console.error('OAuth login error:', error)
+			})
+		// const response = await oAuthLogin(nameProvider)
+		// console.log(response)
 	}
 
 	const loginMutation = useMutation({
@@ -125,6 +128,8 @@ const Auth = ({
 	}
 
 	const inputHint = getInputHint()
+
+	//TODO statusы , чтобы пользователь не могу несколько раз прожать кнопки
 
 	return (
 		<div>

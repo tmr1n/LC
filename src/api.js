@@ -1,11 +1,13 @@
 import axios from 'axios'
 
 const api = axios.create({
-	baseURL: 'https://5367466b7bbb.ngrok-free.app/api/v1',
+	baseURL: 'https://028b667b0760.ngrok-free.app/api/v1',
 	withCredentials: true,
 	headers: {
 		accept: 'application/json',
-		'content-Type': 'application/json'
+		'content-Type': 'application/json',
+		//НЕБЕЗОПАСНО для продакшена, но нужно для ngrok
+		'ngrok-skip-browser-warning': 'true'
 	}
 })
 
