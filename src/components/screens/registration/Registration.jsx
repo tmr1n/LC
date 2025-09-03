@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
 import cn from 'clsx'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 // Импортируем реалистичные конфетти
 import { GoX } from 'react-icons/go'
 
@@ -33,6 +33,15 @@ const Registration = ({ onClose, onSwitchToAuth }) => {
 		clearErrors,
 		setErrors
 	} = useValidation()
+
+	useEffect(() => {
+		if (status === 'success') {
+			const timeout = setTimeout(() => {
+				onSwitchToAuth()
+			}, 2000)
+			return () => clearTimeout(timeout)
+		}
+	}, [status, onSwitchToAuth])
 
 	const handleInputChange = (field, value) => {
 		const newFormData = { ...formData, [field]: value }
@@ -137,7 +146,7 @@ const Registration = ({ onClose, onSwitchToAuth }) => {
 									</div>
 								</div>
 
-								<div className='commonContainer'>
+								<div className={styles.commonContainer}>
 									<div className={styles.inputGroup}>
 										<label
 											htmlFor='email'

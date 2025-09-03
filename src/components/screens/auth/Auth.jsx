@@ -13,6 +13,7 @@ import { useValidation } from '@/hooks/useValidation.js'
 import styles from '../registration/registration.module.scss'
 
 import { login } from '@/services/Auth.service'
+import { oAuthLogin } from '@/services/Auth.service.js'
 
 const Auth = ({
 	onClose,
@@ -37,9 +38,6 @@ const Auth = ({
 	} = useValidation()
 
 	const [isLoading, setIsLoading] = useState(false)
-	const handleGoogleLogin = () => {
-		window.location.href = 'https://YOUR_BACKEND_DOMAIN/auth/google'
-	}
 
 	const handleInputChange = (field, value) => {
 		const newFormData = { ...formData, [field]: value }
@@ -47,6 +45,16 @@ const Auth = ({
 		// При валидации пароль использует ключ 'loginPassword'
 		const fieldType = field === 'password' ? 'loginPassword' : field
 		debouncedValidateField(fieldType, value, formData)
+	}
+
+	const handleLoginOauth = nameProvider => {
+		try {
+			const response = oAuthLogin(nameProvider)
+			window.location.href = response.data.data.url
+		} catch (error) {
+			alert('Ошибка входа через ' + nameProvider)
+			console.error('OAuth login error:', error)
+		}
 	}
 
 	const loginMutation = useMutation({
@@ -58,11 +66,7 @@ const Auth = ({
 		onSuccess: data => {
 			console.log(data)
 			localStorage.setItem('accessToken', data.data.access_token)
-			// Можно обновить состояние в контексте / сторе, например:
-			// authStore.setUser(data.user);
 			navigate('/test')
-			// Перенаправить на главную
-			// navigate('/dashboard'); // если используешь react-router
 			clearErrors()
 		},
 		onError: error => {
@@ -169,7 +173,7 @@ const Auth = ({
 						<div className={styles.gap}>
 							<button
 								className={cn(styles.buttonGray, styles.mt15)}
-								onClick={handleGoogleLogin}
+								onClick={() => handleLoginOauth('google')}
 							>
 								<FcGoogle
 									className={styles.iconGoogle}
@@ -181,7 +185,7 @@ const Auth = ({
 
 							<button
 								className={cn(styles.buttonGray, styles.mt15)}
-								onClick={() => {}}
+								onClick={() => handleLoginOauth('microsoft')}
 							>
 								<TiVendorMicrosoft
 									className={styles.iconMicrosoft}
@@ -193,7 +197,7 @@ const Auth = ({
 
 							<button
 								className={cn(styles.buttonGray, styles.mt15)}
-								onClick={() => {}}
+								onClick={() => handleLoginOauth('yandex')}
 							>
 								<FaYandex
 									className={styles.iconGoogle}

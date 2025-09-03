@@ -1,5 +1,4 @@
 import React from 'react'
-import Realistic from 'react-canvas-confetti/dist/presets/realistic'
 
 import api from '@/api.js'
 
@@ -17,8 +16,6 @@ const Authenticated = () => {
 			<h1>Тест</h1>
 			<p>Здесь будет тестовая страница.</p>
 			<button onClick={authenticated}>Такие дела</button>
-			{/*//TODO Realistic не работает*/}
-			<Realistic />
 		</div>
 	)
 }

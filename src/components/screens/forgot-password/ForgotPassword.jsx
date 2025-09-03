@@ -23,21 +23,6 @@ const ForgotPassword = ({ onClose, onGoBack }) => {
 		debouncedValidateField(field, value)
 	}
 
-	// const handleSubmit = async () => {
-	// 	if (status === 'loading') return
-	// 	const validationErrors = validateForm(formData, 'forgotPassword')
-	//
-	// 	if (Object.keys(validationErrors).length === 0) {
-	// 		setStatus('loading')
-	// 		try {
-	// 			await passwordReset({ email: formData.email })
-	// 			setStatus('success')
-	// 		} catch (error) {
-	// 			if (error.status === 422) setStatus('idle')
-	// 			console.error('Ошибка при отправке ссылки:', error)
-	// 		}
-	// 	}
-	// }
 	const forgottPasswordMutation = useMutation({
 		mutationFn: passwordReset,
 		onSuccess: data => {

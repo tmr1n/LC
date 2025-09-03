@@ -26,7 +26,7 @@ const ResetPassword = () => {
 	const [token, setToken] = useState(null)
 	const [seconds, setSeconds] = useState(null)
 
-	const [showButton, setShowButton] = React.useState(false)
+	const [showButton, setShowButton] = useState(false)
 
 	useEffect(() => {
 		const params = new URLSearchParams(window.location.search)
@@ -89,7 +89,7 @@ const ResetPassword = () => {
 		},
 		onSettled: () => {
 			// По желанию сбросить статус на idle после окончания мутации
-			setTimeout(() => setStatus('idle'), 2000) // например, через 2 секунды
+			//setTimeout(() => setStatus('idle'), 2000) // например, через 2 секунды
 		}
 	})
 
@@ -107,14 +107,13 @@ const ResetPassword = () => {
 		}
 	}
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (status === 'success') {
 			const timer = setTimeout(() => {
 				setShowButton(true)
-			}, 2000)
+			}, 1500) // кнопка появится через 3 секунды
+
 			return () => clearTimeout(timer)
-		} else {
-			setShowButton(false)
 		}
 	}, [status])
 
@@ -228,12 +227,14 @@ const ResetPassword = () => {
 				<div className={styles.successWrapper}>
 					<h2>Успешно!</h2>
 					<Confetti />
-					<button
-						className={`${styles.buttonGray} ${showButton ? styles.slideUp : ''}`}
-						onClick={() => navigate('/')}
-					>
-						<p>На главную</p>
-					</button>
+					{showButton && (
+						<button
+							className={`${styles.buttonBlue} ${showButton ? styles.slideUp : ''}`}
+							onClick={() => navigate('/')}
+						>
+							<p>На главную</p>
+						</button>
+					)}
 				</div>
 			)}
 		</>

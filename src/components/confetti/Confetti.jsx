@@ -6,7 +6,7 @@ function Confetti() {
 		<Fireworks
 			autorun={{ speed: 3, duration: 200 }}
 			style={{
-				position: 'fixed',
+				position: 'absolute',
 				top: 0,
 				left: 0,
 				width: '100%',

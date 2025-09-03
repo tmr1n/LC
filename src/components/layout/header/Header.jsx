@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { RxHamburgerMenu } from 'react-icons/rx'
+import { useLocation } from 'react-router-dom'
 
 import styles from './header.module.scss'
 
@@ -8,10 +9,8 @@ import projectLogoMobile from '../../../assets/images/Logo-adaptive.svg'
 import projectLogo from '../../../assets/images/Logo.svg'
 
 const Header = ({ openAuth }) => {
-	const [page, setPage] = useState()
-	useEffect(() => {
-		setPage(window.location.pathname)
-	}, [])
+	const location = useLocation()
+	const page = location.pathname
 
 	return (
 		<header className={styles.header}>
