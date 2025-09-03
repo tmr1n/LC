@@ -1,12 +1,12 @@
 import { useMutation } from '@tanstack/react-query'
 import cn from 'clsx'
 import React, { useEffect, useState } from 'react'
-import Realistic from 'react-canvas-confetti/dist/presets/realistic/index.js'
 import { MdOutlineTipsAndUpdates } from 'react-icons/md'
 import { useNavigate } from 'react-router-dom'
 
 import { useValidation } from '@/hooks/useValidation.js'
 
+import Confetti from '@/components/confetti/Confetti'
 import Loader from '@/components/loader/Loader.jsx'
 // Импорт компонента Timer (проверьте путь)
 import styles from '@/components/screens/reset-password/ResetPassword.module.scss'
@@ -227,7 +227,7 @@ const ResetPassword = () => {
 			{status === 'success' && (
 				<div className={styles.successWrapper}>
 					<h2>Успешно!</h2>
-					<Realistic />
+					<Confetti />
 					<button
 						className={`${styles.buttonGray} ${showButton ? styles.slideUp : ''}`}
 						onClick={() => navigate('/')}

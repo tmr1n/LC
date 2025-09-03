@@ -1,12 +1,12 @@
 import { useMutation } from '@tanstack/react-query'
 import cn from 'clsx'
 import { useState } from 'react'
-import Realistic from 'react-canvas-confetti/dist/presets/realistic'
 // Импортируем реалистичные конфетти
 import { GoX } from 'react-icons/go'
 
 import { useValidation } from '@/hooks/useValidation.js'
 
+import Confetti from '@/components/confetti/Confetti.jsx'
 import Loader from '@/components/loader/Loader'
 
 import styles from './registration.module.scss'
@@ -356,7 +356,7 @@ const Registration = ({ onClose, onSwitchToAuth }) => {
 					{status === 'success' && (
 						<div className={styles.successWrapper}>
 							<h2>Успешно!</h2>
-							<Realistic />
+							<Confetti />
 						</div>
 					)}
 

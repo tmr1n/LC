@@ -10,33 +10,6 @@ function Timer({ initialSeconds }) {
 
 	const navigate = useNavigate()
 
-	// useEffect(() => {
-	// 	if (secondsLeft <= 0) return
-	//
-	// 	console.log(secondsLeft)
-	// 	const timerId = setInterval(() => {
-	// 		const totalSeconds = secondsLeft > 0 ? secondsLeft - 1 : 0
-	// 		const mins = Math.floor(totalSeconds / 60)
-	// 		const minsString = mins < 10 ? `0${mins}` : mins
-	// 		const secs = totalSeconds % 60
-	// 		const secsString = secs < 10 ? `0${secs}` : secs
-	// 		setSeconds(secsString)
-	// 		setMinute(minsString)
-	//
-	// 		setSecondsLeft(totalSeconds)
-	// 		//setSecondsLeft(10)
-	// 	}, 1000)
-	//
-	// 	return () => clearInterval(timerId)
-	// }, [secondsLeft])
-	//
-	// useEffect(() => {
-	// 	if (secondsLeft === 0) {
-	// 		// пример для react-router-dom v6
-	// 		navigate('/')
-	// 	}
-	// }, [secondsLeft])
-
 	useEffect(() => {
 		let totalSeconds = secondsLeft // начальное значение секунд
 		const [mins, secs] = convertSecondsToTime(totalSeconds)
