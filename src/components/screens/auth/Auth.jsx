@@ -10,6 +10,9 @@ import { useNavigate } from 'react-router-dom'
 // ← импорт clsx как cn
 import { useValidation } from '@/hooks/useValidation.js'
 
+import Confetti from '@/components/confetti/Confetti.jsx'
+import Loader from '@/components/loader/Loader.jsx'
+
 import styles from '../registration/registration.module.scss'
 
 import { login } from '@/services/Auth.service'
@@ -25,6 +28,8 @@ const Auth = ({
 		password: ''
 	})
 
+	const [status, setStatus] = useState('idle') // 'idle' | 'loading' | 'success'
+
 	const navigate = useNavigate()
 
 	const [showPassword, setShowPassword] = useState(false)
@@ -37,7 +42,7 @@ const Auth = ({
 		setErrors
 	} = useValidation()
 
-	const [isLoading, setIsLoading] = useState(false)
+	// const [isLoading, setIsLoading] = useState(false)
 
 	const handleInputChange = (field, value) => {
 		const newFormData = { ...formData, [field]: value }
@@ -50,26 +55,27 @@ const Auth = ({
 	const handleLoginOauth = nameProvider => {
 		oAuthLogin(nameProvider)
 			.then(response => {
+				// setStatus('success')
 				window.location.href = response.data.data.url
 			})
 			.catch(error => {
 				alert('Ошибка входа через ' + nameProvider)
 				console.error('OAuth login error:', error)
+				setStatus('idle')
 			})
-		// const response = await oAuthLogin(nameProvider)
-		// console.log(response)
 	}
 
 	const loginMutation = useMutation({
 		// Вызывается ПЕРЕД запросом
-		onMutate: async () => {
-			setIsLoading(true)
-		},
+		// onMutate: async () => {
+		// 	setIsLoading(true)
+		// },
 		mutationFn: login,
 		onSuccess: data => {
 			console.log(data)
 			localStorage.setItem('accessToken', data.data.access_token)
-			navigate('/test')
+			setStatus('success')
+			navigate('/profile')
 			clearErrors()
 		},
 		onError: error => {
@@ -85,17 +91,12 @@ const Auth = ({
 			} else {
 				alert(error?.response?.data?.message || 'Ошибка входа')
 			}
-		},
-		// Вызывается в ЛЮБОМ случае — успех или ошибка
-		onSettled: () => {
-			setIsLoading(false)
+			setStatus('idle')
 		}
 	})
 
 	const handleSubmit = () => {
-		if (isLoading) {
-			return
-		}
+		if (status === 'loading') return
 		const validationErrors = validateForm(formData, 'auth')
 		console.log(validationErrors)
 		if (Object.keys(validationErrors).length === 0) {
@@ -104,6 +105,7 @@ const Auth = ({
 				password: formData.password
 			})
 		}
+		setStatus('loading')
 	}
 
 	// Определяем label и placeholder для поля ввода
@@ -146,168 +148,187 @@ const Auth = ({
 				</div>
 
 				<div className={styles.d2}>
-					<GoX
-						className={styles.closeButton}
-						fill='#586380'
-						fontSize={30}
-						onClick={onClose}
-					/>
-					<div className={styles.container}>
-						<div className={styles.titleNames}>
-							{/* Вкладка "Регистрация" */}
-							<div className={styles.underline}>
-								<h3
-									className={cn(styles.regTitle, styles.inActive)}
+					{status === 'idle' && (
+						<>
+							<GoX
+								className={styles.closeButton}
+								fill='#586380'
+								fontSize={30}
+								onClick={onClose}
+							/>
+							<div className={styles.container}>
+								<div className={styles.titleNames}>
+									{/* Вкладка "Регистрация" */}
+									<div className={styles.underline}>
+										<h3
+											className={cn(styles.regTitle, styles.inActive)}
+											onClick={onSwitchToRegistration}
+										>
+											Зарегистрироваться
+										</h3>
+									</div>
+
+									{/* Вкладка "Вход" */}
+									<div className={styles.underline}>
+										<h3
+											className={cn(styles.regTitle, styles.withUnderline)}
+											onClick={() => {}}
+										>
+											Вход
+										</h3>
+									</div>
+								</div>
+
+								<div className={styles.gap}>
+									<button
+										className={cn(styles.buttonGray, styles.mt15)}
+										onClick={() => handleLoginOauth('google')}
+									>
+										<FcGoogle
+											className={styles.iconGoogle}
+											fill='#000000'
+											fontSize={25}
+										/>
+										<p>Продолжить с Google</p>
+									</button>
+
+									<button
+										className={cn(styles.buttonGray, styles.mt15)}
+										onClick={() => handleLoginOauth('microsoft')}
+									>
+										<TiVendorMicrosoft
+											className={styles.iconMicrosoft}
+											fill='#000000'
+											fontSize={25}
+										/>
+										<p>Продолжить с Microsoft</p>
+									</button>
+
+									<button
+										className={cn(styles.buttonGray, styles.mt15)}
+										onClick={() => handleLoginOauth('yandex')}
+									>
+										<FaYandex
+											className={styles.iconGoogle}
+											fill='#000000'
+											fontSize={25}
+										/>
+										<p>Продолжить с Yandex</p>
+									</button>
+								</div>
+
+								<div className={styles.dividerFlex}>
+									<span className={styles.line}></span>
+									<span className={styles.text}>или адрес эл. почты</span>
+									<span className={styles.line}></span>
+								</div>
+
+								{/* Email или Username поле */}
+								<div className={styles.inputGroup}>
+									<label
+										htmlFor='email'
+										className={cn(styles.fieldLabel, {
+											[styles.errorLabel]: errors.email
+										})}
+									>
+										{errors.email ? errors.email[0] : inputHint.label}
+									</label>
+									<input
+										type='text'
+										id='email'
+										className={cn(styles.inputField, {
+											[styles.errorInput]: errors.email
+										})}
+										placeholder={inputHint.placeholder}
+										value={formData.email}
+										onChange={e => handleInputChange('email', e.target.value)}
+										autoComplete='username'
+									/>
+									{/* Дополнительные ошибки */}
+									{errors.email && errors.email.length > 1 && (
+										<div className={styles.additionalErrors}>
+											{errors.email.slice(1).map((error, index) => (
+												<div key={index} className={styles.errorText}>
+													{error}
+												</div>
+											))}
+										</div>
+									)}
+								</div>
+
+								{/* Password поле */}
+								<div className={styles.inputGroup}>
+									<div className={styles.labelRow}>
+										<label
+											htmlFor='password'
+											className={cn(styles.fieldLabel, {
+												[styles.errorLabel]: errors.password
+											})}
+										>
+											{errors.password ? errors.password[0] : 'Пароль'}
+										</label>
+										<button
+											type='button'
+											className={styles.forgotLink}
+											onClick={onSwitchToForgotPassword}
+										>
+											Забыли пароль?
+										</button>
+									</div>
+									<div className={styles.passwordWrapper}>
+										<input
+											type={showPassword ? 'text' : 'password'}
+											id='password'
+											className={cn(styles.inputField, {
+												[styles.errorInput]: errors.password
+											})}
+											placeholder='••••••••'
+											value={formData.password}
+											onChange={e =>
+												handleInputChange('password', e.target.value)
+											}
+											autoComplete='current-password'
+										/>
+										<button
+											type='button'
+											className={styles.passwordToggle}
+											onClick={() => setShowPassword(!showPassword)}
+										>
+											<svg viewBox='0 0 24 24' width='20' height='20'>
+												<path
+													d='M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z'
+													fill='currentColor'
+												/>
+											</svg>
+										</button>
+									</div>
+								</div>
+
+								<button className={styles.buttonBlue} onClick={handleSubmit}>
+									<p>Вход</p>
+								</button>
+								<button
+									className={styles.buttonGray}
 									onClick={onSwitchToRegistration}
 								>
-									Зарегистрироваться
-								</h3>
-							</div>
-
-							{/* Вкладка "Вход" */}
-							<div className={styles.underline}>
-								<h3
-									className={cn(styles.regTitle, styles.withUnderline)}
-									onClick={() => {}}
-								>
-									Вход
-								</h3>
-							</div>
-						</div>
-
-						<div className={styles.gap}>
-							<button
-								className={cn(styles.buttonGray, styles.mt15)}
-								onClick={() => handleLoginOauth('google')}
-							>
-								<FcGoogle
-									className={styles.iconGoogle}
-									fill='#000000'
-									fontSize={25}
-								/>
-								<p>Продолжить с Google</p>
-							</button>
-
-							<button
-								className={cn(styles.buttonGray, styles.mt15)}
-								onClick={() => handleLoginOauth('microsoft')}
-							>
-								<TiVendorMicrosoft
-									className={styles.iconMicrosoft}
-									fill='#000000'
-									fontSize={25}
-								/>
-								<p>Продолжить с Microsoft</p>
-							</button>
-
-							<button
-								className={cn(styles.buttonGray, styles.mt15)}
-								onClick={() => handleLoginOauth('yandex')}
-							>
-								<FaYandex
-									className={styles.iconGoogle}
-									fill='#000000'
-									fontSize={25}
-								/>
-								<p>Продолжить с Yandex</p>
-							</button>
-						</div>
-
-						<div className={styles.dividerFlex}>
-							<span className={styles.line}></span>
-							<span className={styles.text}>или адрес эл. почты</span>
-							<span className={styles.line}></span>
-						</div>
-
-						{/* Email или Username поле */}
-						<div className={styles.inputGroup}>
-							<label
-								htmlFor='email'
-								className={cn(styles.fieldLabel, {
-									[styles.errorLabel]: errors.email
-								})}
-							>
-								{errors.email ? errors.email[0] : inputHint.label}
-							</label>
-							<input
-								type='text'
-								id='email'
-								className={cn(styles.inputField, {
-									[styles.errorInput]: errors.email
-								})}
-								placeholder={inputHint.placeholder}
-								value={formData.email}
-								onChange={e => handleInputChange('email', e.target.value)}
-								autoComplete='username'
-							/>
-							{/* Дополнительные ошибки */}
-							{errors.email && errors.email.length > 1 && (
-								<div className={styles.additionalErrors}>
-									{errors.email.slice(1).map((error, index) => (
-										<div key={index} className={styles.errorText}>
-											{error}
-										</div>
-									))}
-								</div>
-							)}
-						</div>
-
-						{/* Password поле */}
-						<div className={styles.inputGroup}>
-							<div className={styles.labelRow}>
-								<label
-									htmlFor='password'
-									className={cn(styles.fieldLabel, {
-										[styles.errorLabel]: errors.password
-									})}
-								>
-									{errors.password ? errors.password[0] : 'Пароль'}
-								</label>
-								<button
-									type='button'
-									className={styles.forgotLink}
-									onClick={onSwitchToForgotPassword}
-								>
-									Забыли пароль?
+									<p>Впервые в LangCards? Создать учетную запись</p>
 								</button>
 							</div>
-							<div className={styles.passwordWrapper}>
-								<input
-									type={showPassword ? 'text' : 'password'}
-									id='password'
-									className={cn(styles.inputField, {
-										[styles.errorInput]: errors.password
-									})}
-									placeholder='••••••••'
-									value={formData.password}
-									onChange={e => handleInputChange('password', e.target.value)}
-									autoComplete='current-password'
-								/>
-								<button
-									type='button'
-									className={styles.passwordToggle}
-									onClick={() => setShowPassword(!showPassword)}
-								>
-									<svg viewBox='0 0 24 24' width='20' height='20'>
-										<path
-											d='M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z'
-											fill='currentColor'
-										/>
-									</svg>
-								</button>
-							</div>
-						</div>
+						</>
+					)}
 
-						<button className={styles.buttonBlue} onClick={handleSubmit}>
-							<p>Вход</p>
-						</button>
-						<button
-							className={styles.buttonGray}
-							onClick={onSwitchToRegistration}
-						>
-							<p>Впервые в LangCards? Создать учетную запись</p>
-						</button>
-					</div>
+					{status === 'loading' && (
+						<div className={styles.loaderWrapper}>
+							<Loader />
+						</div>
+					)}
+
+					{status === 'success' && (
+						<div className={styles.successWrapper}>
+							<h2>Успешно!</h2>
+							<Confetti />
+						</div>
+					)}
 				</div>
 			</section>
 		</div>

@@ -2,22 +2,22 @@ import React from 'react'
 
 import api from '@/api.js'
 
-const authenticated = async () => {
+const profile = async () => {
 	// payload: { email, password }
-	const response = await api.get('/authenticated', { withCredentials: true })
+	const response = await api.get('/profile', { withCredentials: true })
 
 	console.log(response)
 	return response.data
 }
 
-const Authenticated = () => {
+const Profile = () => {
 	return (
 		<div>
 			<h1>Тест</h1>
 			<p>Здесь будет тестовая страница.</p>
-			<button onClick={authenticated}>Такие дела</button>
+			<button onClick={profile}>Такие дела</button>
 		</div>
 	)
 }
 
-export default Authenticated
+export default Profile
