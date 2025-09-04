@@ -131,8 +131,6 @@ const Auth = ({
 
 	const inputHint = getInputHint()
 
-	//TODO statusы , чтобы пользователь не могу несколько раз прожать кнопки
-
 	return (
 		<div>
 			<section className={styles.sec1}>
