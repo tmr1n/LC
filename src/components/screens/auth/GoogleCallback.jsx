@@ -15,7 +15,7 @@ function GoogleCallback() {
 	// and proxy them to /api/auth/callback on our Laravel API
 	useEffect(() => {
 		api
-			.get(`/auth/callback/${provider}${location.search}`)
+			.get(`/auth/${provider}/callback${location.search}`)
 			.then(({ data }) => {
 				setLoading(false)
 				setData(data)
